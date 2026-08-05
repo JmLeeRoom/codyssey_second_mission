@@ -61,19 +61,36 @@ macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리
 
 ## 4. 기능 목록
 
-프로그램은 아래 5개 메뉴를 제공합니다.
+프로그램은 아래 6개 메뉴를 제공합니다.
 
 | 메뉴 | 기능 | 기대 동작 |
 | --- | --- | --- |
-| 1. 퀴즈 풀기 | 저장된 퀴즈를 순서대로 출제합니다. | 정답·오답과 해설을 보여 주고, 전체 종료 후 100점 만점 점수와 최고 점수 갱신 여부를 안내합니다. 퀴즈가 없으면 안내 후 메뉴로 돌아갑니다. |
-| 2. 퀴즈 추가 | 문제, 선택지 4개, 정답 번호를 입력받습니다. | 빈 텍스트와 1~4 밖의 정답 번호를 다시 입력받고, 성공 시 즉시 <code>state.json</code>에 저장합니다. |
+| 1. 퀴즈 풀기 | 선택한 수의 저장된 퀴즈를 무작위로 출제합니다. | 1~현재 퀴즈 수 안에서 문제 수를 고른 뒤 정답·오답과 해설을 보여 주고, 선택한 문제 수 기준의 점수와 최고 점수 갱신 여부를 안내합니다. 퀴즈가 없으면 안내 후 메뉴로 돌아갑니다. |
+| 2. 퀴즈 추가 | 문제, 선택지 4개, 정답 번호와 선택적 힌트를 입력받습니다. | 빈 텍스트와 1~4 밖의 정답 번호를 다시 입력받고, 성공 시 즉시 <code>state.json</code>에 저장합니다. |
 | 3. 퀴즈 목록 | 등록된 모든 퀴즈를 조회합니다. | 번호와 문제를 표시하며, 퀴즈가 없으면 별도 안내를 표시합니다. |
-| 4. 점수 확인 | 최고 기록을 조회합니다. | 아직 푼 기록이 없으면 미기록 상태를, 기록이 있으면 최고 점수와 정답 수를 표시합니다. |
-| 5. 종료 | 프로그램을 안전하게 마칩니다. | 현재 상태를 저장할 수 있는 범위에서 저장한 뒤 종료 메시지를 출력합니다. |
+| 4. 점수 확인 | 최고 기록과 최근 게임 기록을 조회합니다. | 최고 기록은 별도로 표시하고, 완료한 게임의 날짜·문제 수·정답 수·점수를 최신순 최근 5회까지 표시합니다. |
+| 5. 퀴즈 삭제 | 번호로 선택한 퀴즈를 삭제합니다. | 목록을 확인하고 <code>y/n</code> 재확인 후 즉시 저장합니다. |
+| 6. 종료 | 프로그램을 안전하게 마칩니다. | 현재 상태를 저장할 수 있는 범위에서 저장한 뒤 종료 메시지를 출력합니다. |
 
 ### 점수 계산
 
-모든 문제를 푼 뒤 <code>정답 수 / 전체 문제 수 × 100</code>으로 점수를 계산합니다. 새 점수가 기존 최고 점수보다 높으면 최고 점수와 정답 수, 전체 문제 수를 함께 갱신합니다.
+모든 문제를 푼 뒤 <code>획득 점수 / 전체 문제 수 × 100</code>으로 점수를 계산합니다. 힌트 없이 맞히면 1점, 힌트를 요청한 뒤 맞히면 0.5점을 얻습니다. 새 점수가 기존 최고 점수보다 높으면 최고 점수와 정답 수, 전체 문제 수를 함께 갱신하며, 점수와 관계없이 완료한 모든 게임은 히스토리에 남깁니다.
+
+### 랜덤 출제
+
+퀴즈 풀기에서는 저장된 목록의 얕은 복사본을 <code>random.shuffle()</code>로 섞어 무작위 순서로 출제합니다. 원본 <code>self.quizzes</code>의 순서는 유지되므로 퀴즈 목록 조회와 저장 데이터의 순서는 바뀌지 않습니다.
+
+### 문제 수 선택
+
+퀴즈를 시작하기 전에 1~현재 등록 퀴즈 수 범위에서 풀 문제 수를 입력합니다. 섞은 출제용 복사본에서 선택한 수만큼만 출제하며, 결과 점수와 최고 기록의 전체 문제 수도 이 선택 수를 기준으로 계산합니다.
+
+### 힌트
+
+문제를 푸는 중 <code>0</code>을 입력하면 등록된 힌트를 보여 준 뒤 다시 답을 입력받습니다. 힌트를 요청한 문제를 맞히면 1점 대신 0.5점만 인정하며, 최종 점수는 획득 점수 ÷ 선택한 문제 수 × 100으로 계산합니다. 새 퀴즈에는 선택적으로 힌트를 입력할 수 있습니다.
+
+### 점수 히스토리
+
+게임을 끝낼 때마다 날짜·시간, 푼 문제 수, 정답 수, 최종 점수를 <code>history</code>에 추가해 저장합니다. 최고 기록은 가장 높은 점수 한 건을 보여 주는 용도이고, 점수 히스토리는 모든 완료 게임을 보존하는 용도이며 점수 확인 화면에서는 최신 5회를 표시합니다.
 
 ### 입력 및 예외 처리 기준
 
@@ -126,8 +143,8 @@ codyssey_second_mission/
 
 | 클래스 또는 모듈 | 책임 |
 | --- | --- |
-| <code>Quiz</code> | 문제(<code>question</code>), 선택지 4개(<code>choices</code>), 정답 번호(<code>answer</code>)를 표현합니다. 문제 출력과 정답 확인을 담당하고, <code>to_dict()</code>·<code>from_dict()</code>로 JSON 데이터와 객체를 변환합니다. |
-| <code>QuizGame</code> | 퀴즈 목록, 최고 점수, 메뉴 루프를 관리합니다. 퀴즈 풀기·추가·목록 조회·점수 확인을 조합하고, <code>ask_int()</code>·<code>ask_text()</code> 같은 공통 입력 검증을 제공합니다. |
+| <code>Quiz</code> | 문제(<code>question</code>), 선택지 4개(<code>choices</code>), 정답 번호(<code>answer</code>), 선택적 힌트(<code>hint</code>)를 표현합니다. 문제 출력과 정답 확인을 담당하고, <code>to_dict()</code>·<code>from_dict()</code>로 JSON 데이터와 객체를 변환합니다. |
+| <code>QuizGame</code> | 퀴즈 목록, 최고 점수, 모든 게임의 점수 히스토리, 메뉴 루프를 관리합니다. 퀴즈 풀기·추가·목록 조회·삭제·점수 확인을 조합하고, <code>ask_int()</code>·<code>ask_text()</code>·<code>ask_yes_no()</code> 같은 공통 입력 검증을 제공합니다. |
 | <code>storage.py</code> (선택 분리) | 프로젝트 루트의 데이터 경로를 정하고 JSON 저장·불러오기, 백업과 손상 복구를 담당합니다. 이 역할은 <code>QuizGame</code>에 통합할 수도 있습니다. |
 | <code>main.py</code> | 게임을 생성·실행하고 메뉴 흐름을 담당합니다. <code>KeyboardInterrupt</code>·<code>EOFError</code> 발생 시 가능한 범위에서 저장한 뒤 안전하게 종료합니다. |
 
@@ -156,12 +173,21 @@ codyssey_second_mission/
         "우선순위 순",
         "무작위 접근"
       ],
-      "answer": 2
+      "answer": 2,
+      "hint": "접시를 쌓아 올린 뒤 가장 위의 접시부터 꺼내는 상황을 떠올려 보세요."
     }
   ],
   "best_score": 80,
   "best_correct": 4,
-  "best_total": 5
+  "best_total": 5,
+  "history": [
+    {
+      "timestamp": "2026-08-05 16:30:00",
+      "total": 5,
+      "correct": 4,
+      "score": 80
+    }
+  ]
 }
 ~~~
 
@@ -171,15 +197,21 @@ codyssey_second_mission/
 | <code>question</code> | 문자열 | 퀴즈 질문 |
 | <code>choices</code> | 문자열 배열 | 순서가 있는 선택지 4개 |
 | <code>answer</code> | 정수 | 정답 선택지 번호(1~4) |
+| <code>hint</code> | 문자열 또는 null | 선택적 힌트. 이전 저장 파일에 없으면 <code>null</code>로 복원 |
 | <code>best_score</code> | 정수 | 현재 최고 점수(100점 만점) |
 | <code>best_correct</code> | 정수 | 최고 기록의 정답 수 |
 | <code>best_total</code> | 정수 | 최고 기록에서 푼 전체 문제 수 |
+| <code>history</code> | 객체 배열 | 완료한 모든 게임의 기록. 이전 저장 파일에 없으면 빈 배열로 복원 |
+| <code>history[].timestamp</code> | 문자열 | 게임을 마친 날짜와 시간 |
+| <code>history[].total</code> | 정수 | 해당 게임에서 푼 문제 수 |
+| <code>history[].correct</code> | 정수 | 해당 게임에서 맞힌 문제 수 |
+| <code>history[].score</code> | 정수 | 힌트 감점이 반영된 해당 게임의 최종 점수 |
 
 ### 첫 실행과 복구 동작
 
 현재 동작은 다음과 같습니다.
 
-1. 정상 파일은 퀴즈 객체와 최고 기록으로 복원한 뒤 퀴즈 개수와 최고 점수를 안내합니다. 이전 형식에 없는 점수 필드는 <code>0</code>으로 보완합니다.
+1. 정상 파일은 퀴즈 객체, 최고 기록, 게임 히스토리로 복원한 뒤 퀴즈 개수와 최고 점수를 안내합니다. 이전 형식에 없는 점수 필드와 <code>history</code>는 각각 <code>0</code>, 빈 배열로 보완합니다.
 2. 첫 실행에 파일이 없으면 <code>FileNotFoundError</code>를 처리하고, 코드에 포함한 기본 퀴즈 5개 이상으로 <code>state.json</code>을 생성한 뒤 시작합니다.
 3. JSON 형식·UTF-8 인코딩·스키마가 잘못되면 <code>json.JSONDecodeError</code>, <code>UnicodeDecodeError</code>, <code>KeyError</code>, <code>TypeError</code>, <code>ValueError</code>를 처리합니다.
 4. 손상된 파일은 가능한 경우 <code>state.json.bak</code>으로 백업한 뒤 기본 퀴즈와 모든 최고 기록 값 <code>0</code>으로 안전하게 복구합니다. 백업 실패도 복구를 중단시키지 않습니다.
@@ -188,7 +220,7 @@ codyssey_second_mission/
 ### 저장·로드 호출 시점
 
 - <code>QuizGame</code> 생성 직후 <code>load_state()</code>를 호출해 이전 상태를 복원합니다.
-- 퀴즈 추가와 최고 기록 갱신 직후, 메뉴 5번의 정상 종료 직전에 <code>save_state()</code>를 호출합니다.
+- 퀴즈 추가·삭제와 매 게임 완료 직후, 메뉴 6번의 정상 종료 직전에 <code>save_state()</code>를 호출합니다.
 - <code>Ctrl+C</code>와 <code>EOF</code> 종료도 <code>_save_before_exit()</code>를 거쳐 저장을 시도합니다.
 
 ### Git 추적 방침
@@ -212,7 +244,7 @@ codyssey_second_mission/
 | 권장 파일 경로 | 증빙 내용 | 현재 상태 |
 | --- | --- | --- |
 | <code>docs/screenshots/env_setup.png</code> | Python 3.10+·Git 버전·Git 사용자 설정 | 기존 <code>docs/image.png</code>로 유사 증빙 보유 |
-| <code>docs/screenshots/menu.png</code> | 데이터 로딩 안내와 1~5 메인 메뉴 | 실행 코드 추가 후 촬영 필요 |
+| <code>docs/screenshots/menu.png</code> | 데이터 로딩 안내와 1~6 메인 메뉴 | 실행 코드 추가 후 촬영 필요 |
 | <code>docs/screenshots/play.png</code> | 문제 출제, 정오답 판정, 100점 환산, 최고 점수 갱신 | 실행 코드 추가 후 촬영 필요 |
 | <code>docs/screenshots/add_quiz.png</code> | 문제·선택지·정답 입력과 저장 성공 | 실행 코드 추가 후 촬영 필요 |
 | <code>docs/screenshots/score.png</code> | 최고 점수 또는 미기록 상태 | 실행 코드 추가 후 촬영 필요 |
@@ -243,7 +275,7 @@ Chore: Git ignore 규칙 추가
 
 - [ ] Python 3.10 이상에서 <code>python main.py</code>가 외부 패키지 없이 실행된다.
 - [ ] 자료구조 기본 퀴즈 5개 이상이 문제·선택지 4개·정답 번호와 함께 제공된다.
-- [ ] 메뉴 5종과 빈 퀴즈·미기록 상태가 모두 처리된다.
+- [ ] 메뉴 6종과 빈 퀴즈·미기록·빈 삭제 목록 상태가 모두 처리된다.
 - [ ] 공백, 빈 입력, 숫자 변환 실패, 범위 밖 입력, Ctrl+C, EOF를 안전하게 처리한다.
 - [ ] <code>state.json</code>에 UTF-8로 저장하고 파일 없음·손상 상태에서 복구한다.
 - [ ] <code>Quiz</code>, <code>QuizGame</code>을 포함해 책임이 분리된 클래스 구조를 갖춘다.

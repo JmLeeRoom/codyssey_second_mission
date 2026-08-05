@@ -194,9 +194,9 @@ git version 2.43.0
 - [x] `show_menu(self)`가 1. 퀴즈 풀기, 2. 퀴즈 추가, 3. 퀴즈 목록, 4. 점수 확인, 5. 종료를 모두 출력한다.
 - [x] 메뉴에 자료구조 퀴즈 게임임을 알 수 있는 제목을 출력한다.
 - [x] `run(self)`에 `while` 루프를 두어 종료 전까지 메뉴를 반복한다.
-- [x] 메뉴 선택에 `ask_int("선택: ", 1, 5)` 또는 동등한 범위 검증을 사용한다.
-- [x] 선택 1이 `play_quiz()`, 2가 `add_quiz()`, 3이 `show_quiz_list()`, 4가 `show_score()`로 분기하는지 확인한다.
-- [x] 선택 5에서 현재 상태를 저장할 수 있는 범위에서 저장하고 루프를 끝내는지 확인한다.
+- [x] 메뉴 선택에 `ask_int("선택: ", 1, 6)` 또는 동등한 범위 검증을 사용한다.
+- [x] 선택 1이 `play_quiz()`, 2가 `add_quiz()`, 3이 `show_quiz_list()`, 4가 `show_score()`, 5가 `delete_quiz()`로 분기하는지 확인한다.
+- [x] 선택 6에서 현재 상태를 저장할 수 있는 범위에서 저장하고 루프를 끝내는지 확인한다.
 
 ### 3-4. Ctrl+C·EOF 안전 종료
 
@@ -209,7 +209,7 @@ git version 2.43.0
 
 ### 3-5. 입력 예외 9종 실습과 Git 체크포인트
 
-- [ ] 메뉴 1~5 각각이 정상 분기하는지 확인한다.
+- [ ] 메뉴 1~6 각각이 정상 분기하는지 확인한다.
 - [ ] 앞뒤 공백이 있는 메뉴 입력을 확인한다.
 - [ ] `abc` 입력을 확인한다.
 - [ ] 9 입력을 확인한다.
@@ -496,7 +496,7 @@ jmlee@swhs-lab:~/Project/second-project$
 - [ ] 커밋 #11까지 `git push`를 실행한다.
 - [ ] 문제·선택지·정답 번호 입력과 저장 성공이 보이도록 `docs/screenshots/add_quiz.png`을 캡처한다.
 - [ ] 최고 점수 또는 미기록 안내가 보이도록 `docs/screenshots/score.png`을 캡처한다.
-- [ ] 데이터 로딩 문구와 1~5 메뉴가 보이도록 `docs/screenshots/menu.png`을 캡처한다.
+- [ ] 데이터 로딩 문구와 1~6 메뉴가 보이도록 `docs/screenshots/menu.png`을 캡처한다.
 ```
 jmlee@swhs-lab:~/Project/second-project$ python3 main.py 
 
@@ -640,7 +640,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 - [x] 게임 생성 시 `load_state()`를 호출한다.
 - [x] `add_quiz()` 성공 직후 `save_state()`를 호출한다.
 - [x] 최고 점수 갱신 직후 `save_state()`를 호출한다.
-- [x] 메뉴 5번 종료와 Ctrl+C·EOF 안전 종료 시 가능한 범위에서 `save_state()`를 호출한다.
+- [x] 메뉴 6번 종료와 Ctrl+C·EOF 안전 종료 시 가능한 범위에서 `save_state()`를 호출한다.
 - [x] 퀴즈를 추가하고 종료한 뒤 재실행해 데이터가 유지되는지 확인한다.
 - [x] 점수를 기록하고 재실행해 최고 기록이 유지되는지 확인한다.
 - [x] `state.json`을 잠시 이름 변경하거나 제거한 뒤 첫 실행 복구가 되는지 확인한다.
@@ -698,43 +698,43 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 ### 8-1. 랜덤 출제
 
-- [ ] 원본 `self.quizzes` 순서를 바꾸지 않도록 복사본을 만든다.
-- [ ] `quizzes_to_play = self.quizzes[:]`로 복사한 뒤 `random.shuffle(quizzes_to_play)`를 호출하고, 실제 출제에 `quizzes_to_play`을 사용한다.
-- [ ] 같은 퀴즈를 여러 번 풀어 출제 순서가 바뀌는지 확인한다.
+- [x] 원본 `self.quizzes` 순서를 바꾸지 않도록 복사본을 만든다.
+- [x] `quizzes_to_play = self.quizzes[:]`로 복사한 뒤 `random.shuffle(quizzes_to_play)`를 호출하고, 실제 출제에 `quizzes_to_play`을 사용한다.
+- [x] 같은 퀴즈를 여러 번 풀어 출제 순서가 바뀌는지 확인한다.
 
 ### 8-2. 문제 수 선택
 
-- [ ] `ask_int()`로 풀 문제 수를 입력받는다.
-- [ ] 입력 범위를 현재 퀴즈 개수 이내로 제한한다.
-- [ ] `quizzes[:count]` 또는 동등한 슬라이싱으로 선택한 수만 출제한다.
-- [ ] 선택한 문제 수, 전체 퀴즈 수, 점수 계산 분모가 일치하는지 확인한다.
+- [x] `ask_int()`로 풀 문제 수를 입력받는다.
+- [x] 입력 범위를 현재 퀴즈 개수 이내로 제한한다.
+- [x] `quizzes[:count]` 또는 동등한 슬라이싱으로 선택한 수만 출제한다.
+- [x] 선택한 문제 수, 전체 퀴즈 수, 점수 계산 분모가 일치하는지 확인한다.
 
 ### 8-3. 힌트
 
-- [ ] `Quiz`에 `hint=None` 또는 동등한 선택적 힌트 속성을 추가한다.
-- [ ] 기존 `state.json` 데이터와 호환되도록 `data.get("hint")` 또는 동등한 기본값 처리를 한다.
-- [ ] 풀이 중 정답 입력 범위를 0~4로 확장하는 등 명시한 방법으로 힌트를 볼 수 있게 한다.
-- [ ] 0 입력 시 힌트를 출력하고, 힌트 사용 시 정한 점수 감점 규칙을 실제 결과 점수에 반영한다.
-- [ ] `to_dict()`와 `from_dict()`에서도 `hint`를 저장·복원한다.
-- [ ] 힌트를 쓰지 않은 경우와 쓴 경우를 각각 시험한다.
+- [x] `Quiz`에 `hint=None` 또는 동등한 선택적 힌트 속성을 추가한다.
+- [x] 기존 `state.json` 데이터와 호환되도록 `data.get("hint")` 또는 동등한 기본값 처리를 한다.
+- [x] 풀이 중 정답 입력 범위를 0~4로 확장하는 등 명시한 방법으로 힌트를 볼 수 있게 한다.
+- [x] 0 입력 시 힌트를 출력하고, 힌트 사용 시 정한 점수 감점 규칙을 실제 결과 점수에 반영한다.
+- [x] `to_dict()`와 `from_dict()`에서도 `hint`를 저장·복원한다.
+- [x] 힌트를 쓰지 않은 경우와 쓴 경우를 각각 시험한다.
 
 ### 8-4. 퀴즈 삭제
 
-- [ ] 메뉴 6번 등 삭제 진입 방법을 명시한다.
-- [ ] 삭제 기능을 추가하면 메뉴 선택 범위도 1~6으로 함께 변경한다.
-- [ ] 삭제할 퀴즈 번호를 범위 검증과 함께 입력받는다.
-- [ ] 삭제 전 `y/n` 재확인을 받는다.
-- [ ] 승인 시 `del` 또는 동등한 방식으로 올바른 퀴즈만 삭제한다.
-- [ ] 삭제 직후 `save_state()`를 호출한다.
-- [ ] 재실행 뒤 삭제한 퀴즈가 돌아오지 않는지 확인한다.
+- [x] 메뉴 5번으로 삭제에 진입하고 메뉴 6번으로 종료한다.
+- [x] 삭제 기능을 추가하며 메뉴 선택 범위도 1~6으로 함께 변경한다.
+- [x] 삭제할 퀴즈 번호를 범위 검증과 함께 입력받는다.
+- [x] 삭제 전 `y/n` 재확인을 받는다.
+- [x] 승인 시 `del` 또는 동등한 방식으로 올바른 퀴즈만 삭제한다.
+- [x] 삭제 직후 `save_state()`를 호출한다.
+- [x] 재실행 뒤 삭제한 퀴즈가 돌아오지 않는지 확인한다.
 
 ### 8-5. 점수 히스토리
 
-- [ ] `history: []` 키를 상태 스키마에 추가한다.
-- [ ] 각 게임마다 날짜/시간, 푼 문제 수, 정답 수, 점수를 기록한다.
-- [ ] 기존 `state.json`에 `history`가 없어도 `data.get("history", [])` 또는 동등한 마이그레이션으로 불러온다.
-- [ ] 최고 점수와 모든 게임 기록의 역할을 구분해 표시한다.
-- [ ] 점수 확인 화면에서 최근 기록(예: 최근 5회)을 조회하는 기능을 구현했다면 실제 히스토리와 일치하는지 확인한다.
+- [x] `history: []` 키를 상태 스키마에 추가한다.
+- [x] 각 게임마다 날짜/시간, 푼 문제 수, 정답 수, 점수를 기록한다.
+- [x] 기존 `state.json`에 `history`가 없어도 `data.get("history", [])` 또는 동등한 마이그레이션으로 불러온다.
+- [x] 최고 점수와 모든 게임 기록의 역할을 구분해 표시한다.
+- [x] 점수 확인 화면에서 최근 5회 기록을 조회하고 실제 히스토리와 일치하는지 확인한다.
 
 ---
 
@@ -760,7 +760,8 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 - [ ] 메뉴 2 “퀴즈 추가”의 문제·선택지 4개·정답 입력·즉시 저장·유효성 검증을 설명한다.
 - [ ] 메뉴 3 “퀴즈 목록”의 번호·문제 표시와 빈 목록 처리를 설명한다.
 - [ ] 메뉴 4 “점수 확인”의 최고 기록 표시와 미기록 상태 처리를 설명한다.
-- [ ] 메뉴 5 “종료”의 가능한 범위 저장과 안전 종료를 설명한다.
+- [ ] 메뉴 5 “퀴즈 삭제”의 번호 선택·재확인·즉시 저장을 설명한다.
+- [ ] 메뉴 6 “종료”의 가능한 범위 저장과 안전 종료를 설명한다.
 
 ### 9-3. 파일 구조와 클래스 설계
 
@@ -777,7 +778,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 - [ ] 데이터 경로로 `Path(__file__).resolve().parent / "state.json"`을 사용해 실행 위치와 무관함을 설명한다.
 - [ ] UTF-8, `ensure_ascii=False`, `state.json`의 역할을 설명한다.
-- [ ] `quizzes`, `question`, `choices`, `answer`, `best_score`, `best_correct`, `best_total`의 JSON 스키마 예시를 제공한다.
+- [ ] `quizzes`, `question`, `choices`, `answer`, 선택적 `hint`, `best_score`, `best_correct`, `best_total`, `history`의 JSON 스키마 예시를 제공한다.
 - [ ] `answer`가 1~4 번호이고 `choices`가 4개라는 규칙을 설명한다.
 - [ ] 첫 실행의 `FileNotFoundError`에서는 기본 퀴즈로 시작한다고 설명한다.
 - [ ] `json.JSONDecodeError`, `KeyError`, `ValueError`, `TypeError`, `OSError` 등 손상·읽기 실패를 안내하고 복구한다고 설명한다.
@@ -787,7 +788,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 ### 9-5. README 이미지와 Git 증빙
 
 - [ ] Python·Git 버전과 전역 Git 설정을 보여 주는 환경 이미지를 README에서 정상 표시한다.
-- [ ] `docs/screenshots/menu.png`으로 데이터 로딩 안내와 1~5 메뉴를 증빙한다.
+- [ ] `docs/screenshots/menu.png`으로 데이터 로딩 안내와 1~6 메뉴를 증빙한다.
 - [ ] `docs/screenshots/play.png`으로 문제 출제, 정오답, 결과, 최고 점수 갱신을 증빙한다.
 - [ ] `docs/screenshots/add_quiz.png`으로 문제·선택지·정답 입력과 저장 성공을 증빙한다.
 - [ ] `docs/screenshots/score.png`으로 최고 기록 또는 미기록 상태를 증빙한다.
@@ -853,7 +854,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 - [ ] Python 3.10 이상 환경에서 `python main.py` 또는 `python3 main.py`를 실행한다.
 - [ ] 외부 패키지 설치 오류 없이 메뉴가 표시되는지 확인한다.
-- [ ] 메뉴 1~5가 모두 동작하는지 다시 확인한다.
+- [ ] 메뉴 1~6이 모두 동작하는지 다시 확인한다.
 - [ ] 자료구조 기본 퀴즈 5개 이상, 선택지 4개, 정답 1~4 규칙을 다시 확인한다.
 - [ ] 퀴즈 추가·재시작·목록·점수 확인·삭제(구현한 경우)를 연속으로 시험한다.
 - [ ] 입력 공백·빈 입력·문자·소수·범위 밖 숫자·Ctrl+C·EOF를 다시 시험한다.
@@ -875,7 +876,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 ### 11-3. 제출 증빙 스크린샷 6종
 
 - [ ] `docs/screenshots/env_setup.png` 또는 동등한 환경 화면: Python 3.10+·Git 버전·Git 전역 설정을 증빙한다.
-- [ ] `docs/screenshots/menu.png`: 데이터 로딩 안내와 1~5 메뉴를 증빙한다.
+- [ ] `docs/screenshots/menu.png`: 데이터 로딩 안내와 1~6 메뉴를 증빙한다.
 - [ ] `docs/screenshots/play.png`: 출제·정오답·100점 환산·최고 점수 갱신을 증빙한다.
 - [ ] `docs/screenshots/add_quiz.png`: 문제·선택지 4개·정답 번호 입력과 성공 메시지를 증빙한다.
 - [ ] `docs/screenshots/score.png`: 최고 점수와 상세 정답 수 또는 미기록 안내를 증빙한다.

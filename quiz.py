@@ -6,9 +6,15 @@ from typing import Any
 
 
 class Quiz:
-    """문제, 선택지 4개, 1-based 정답 번호를 관리하는 퀴즈 모델."""
+    """문제, 선택지 4개, 정답 번호와 선택적 힌트를 관리하는 퀴즈 모델."""
 
-    def __init__(self, question: str, choices: list[str], answer: int) -> None:
+    def __init__(
+        self,
+        question: str,
+        choices: list[str],
+        answer: int,
+        hint: str | None = None,
+    ) -> None:
         """유효한 퀴즈 데이터를 저장한다.
 
         ``answer``는 사용자가 보는 번호와 동일하게 1~4로 저장한다.
@@ -26,10 +32,13 @@ class Quiz:
             raise TypeError("정답 번호는 정수여야 합니다.")
         if not 1 <= answer <= 4:
             raise ValueError("정답 번호는 1~4 사이여야 합니다.")
+        if hint is not None and not isinstance(hint, str):
+            raise TypeError("힌트는 문자열 또는 None이어야 합니다.")
 
         self.question = question
         self.choices = list(choices)
         self.answer = answer
+        self.hint = hint
 
     def display(self, number: int | None = None) -> None:
         """문제와 선택지 4개를 사용자에게 출력한다."""
@@ -59,6 +68,7 @@ class Quiz:
             "question": self.question,
             "choices": list(self.choices),
             "answer": self.answer,
+            "hint": self.hint,
         }
 
     @classmethod
@@ -71,6 +81,8 @@ class Quiz:
             question=data["question"],
             choices=data["choices"],
             answer=data["answer"],
+            # 기존 state.json에 hint 키가 없어도 None으로 안전하게 복원한다.
+            hint=data.get("hint"),
         )
 
 
@@ -90,6 +102,7 @@ def get_default_quizzes() -> list[Quiz]:
                 "무작위 접근",
             ],
             2,
+            "접시를 쌓아 올린 뒤 가장 위의 접시부터 꺼내는 상황을 떠올려 보세요.",
         ),
         Quiz(
             "큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요?",
@@ -100,6 +113,7 @@ def get_default_quizzes() -> list[Quiz]:
                 "순서와 관계없이 무작위로 나온다",
             ],
             1,
+            "줄을 선 사람은 먼저 온 순서대로 처리됩니다.",
         ),
         Quiz(
             "해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요?",
@@ -110,6 +124,7 @@ def get_default_quizzes() -> list[Quiz]:
                 "트리의 높이를 자동으로 균형 있게 맞춘다",
             ],
             2,
+            "키를 계산해 저장할 위치를 빠르게 찾는 역할입니다.",
         ),
         Quiz(
             "이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요?",
@@ -120,6 +135,7 @@ def get_default_quizzes() -> list[Quiz]:
                 "노드의 크기와 관계없이 무작위로 배치한다",
             ],
             2,
+            "왼쪽과 오른쪽 자식 중 어느 쪽이 더 작은 값을 갖는지 생각해 보세요.",
         ),
         Quiz(
             "정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요?",
@@ -130,6 +146,7 @@ def get_default_quizzes() -> list[Quiz]:
                 "O(n²)",
             ],
             2,
+            "탐색 범위를 매번 절반으로 줄입니다.",
         ),
     ]
 
