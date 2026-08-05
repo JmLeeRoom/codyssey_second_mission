@@ -12,9 +12,9 @@ from quiz import Quiz, get_default_quizzes
 STATE_FILE = Path(__file__).resolve().parent / "state.json"
 
 
-def _default_state() -> tuple[list[Quiz], int]:
-    """복구에 사용할 새 기본 퀴즈 목록과 초기 최고 점수를 반환한다."""
-    return get_default_quizzes(), 0
+def _default_state() -> tuple[list[Quiz], int, int, int]:
+    """복구에 사용할 기본 퀴즈와 초기 최고 기록을 반환한다."""
+    return get_default_quizzes(), 0, 0, 0
 
 
 def _backup_corrupted_file(state_file: Path) -> None:
@@ -30,7 +30,16 @@ def _backup_corrupted_file(state_file: Path) -> None:
         pass
 
 
-def _parse_state(data: Any) -> tuple[list[Quiz], int]:
+def _require_nonnegative_int(value: Any, field_name: str) -> int:
+    """JSON 점수 필드가 0 이상의 정수인지 검증해 반환한다."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError(f"state.json의 {field_name}는 정수여야 합니다.")
+    if value < 0:
+        raise ValueError(f"state.json의 {field_name}는 0 이상이어야 합니다.")
+    return value
+
+
+def _parse_state(data: Any) -> tuple[list[Quiz], int, int, int]:
     """JSON으로 읽은 값을 프로젝트의 state.json 스키마로 검증한다."""
     if not isinstance(data, dict):
         raise ValueError("state.json의 최상위 값은 객체(dict)여야 합니다.")
@@ -41,60 +50,88 @@ def _parse_state(data: Any) -> tuple[list[Quiz], int]:
 
     quizzes = [Quiz.from_dict(raw_quiz) for raw_quiz in raw_quizzes]
 
-    best_score = data["best_score"]
-    if isinstance(best_score, bool) or not isinstance(best_score, int):
-        raise TypeError("state.json의 best_score는 정수여야 합니다.")
-    if best_score < 0:
-        raise ValueError("state.json의 best_score는 0 이상이어야 합니다.")
+    best_score = _require_nonnegative_int(data["best_score"], "best_score")
+    if best_score > 100:
+        raise ValueError("state.json의 best_score는 100 이하여야 합니다.")
 
-    return quizzes, best_score
+    # 이전 버전 state.json에는 상세 최고 기록이 없을 수 있으므로 0으로 복원한다.
+    best_correct = _require_nonnegative_int(
+        data.get("best_correct", 0), "best_correct"
+    )
+    best_total = _require_nonnegative_int(data.get("best_total", 0), "best_total")
+    if best_correct > best_total:
+        raise ValueError("best_correct는 best_total보다 클 수 없습니다.")
+
+    return quizzes, best_score, best_correct, best_total
 
 
-def load_state(state_file: Path | str = STATE_FILE) -> tuple[list[Quiz], int]:
+def _select_state_values(
+    state: tuple[list[Quiz], int, int, int], include_details: bool
+) -> tuple[list[Quiz], int] | tuple[list[Quiz], int, int, int]:
+    """기존 2개 값 API와 상세 기록을 포함한 API를 모두 지원한다."""
+    if include_details:
+        return state
+    return state[:2]
+
+
+def load_state(
+    state_file: Path | str = STATE_FILE, *, include_details: bool = False
+) -> tuple[list[Quiz], int] | tuple[list[Quiz], int, int, int]:
     """저장된 퀴즈와 최고 점수를 불러오고, 실패하면 기본값으로 복구한다.
 
-    이후 ``QuizGame.__init__()``에서 ``self.quizzes, self.best_score =
-    load_state()``처럼 호출할 수 있다. 파일 없음은 첫 실행의 정상 상태로
-    처리하며, JSON 또는 스키마가 손상된 파일은 가능한 경우 ``.bak``으로
-    보관한 뒤 :func:`get_default_quizzes`의 데이터로 복구한다.
+    기본값은 기존 호환성을 위해 ``(quizzes, best_score)``를 반환한다.
+    ``include_details=True``이면 ``best_correct``와 ``best_total``까지 포함한
+    네 값을 반환한다. 파일 없음은 첫 실행의 정상 상태로 처리하며, JSON
+    또는 스키마가 손상된 파일은 가능한 경우 ``.bak``으로 보관한 뒤
+    :func:`get_default_quizzes`의 데이터로 복구한다.
     """
     path = Path(state_file)
 
     try:
         with path.open("r", encoding="utf-8") as file:
             data = json.load(file)
-        return _parse_state(data)
+        return _select_state_values(_parse_state(data), include_details)
     except FileNotFoundError:
-        return _default_state()
+        return _select_state_values(_default_state(), include_details)
     except (json.JSONDecodeError, KeyError, TypeError, ValueError, UnicodeDecodeError) as error:
         _backup_corrupted_file(path)
         print(f"⚠️ 데이터 파일이 손상되었습니다: {error}")
         print("🔧 기본 퀴즈 데이터로 복구합니다.")
-        return _default_state()
+        return _select_state_values(_default_state(), include_details)
     except OSError as error:
         print(f"⚠️ 데이터 파일을 읽을 수 없습니다: {error}")
         print("🔧 기본 퀴즈 데이터로 복구합니다.")
-        return _default_state()
+        return _select_state_values(_default_state(), include_details)
 
 
 def save_state(
-    quizzes: list[Quiz], best_score: int, state_file: Path | str = STATE_FILE
+    quizzes: list[Quiz],
+    best_score: int,
+    state_file: Path | str = STATE_FILE,
+    *,
+    best_correct: int = 0,
+    best_total: int = 0,
 ) -> bool:
-    """퀴즈 목록과 최고 점수를 UTF-8 JSON 파일로 저장한다.
+    """퀴즈 목록과 최고 기록을 UTF-8 JSON 파일로 저장한다.
 
     저장 실패는 게임 종료나 메뉴 흐름을 막지 않도록 안내 후 ``False``를
     반환한다. 성공하면 ``True``를 반환한다.
     """
-    if isinstance(best_score, bool) or not isinstance(best_score, int):
-        raise TypeError("최고 점수는 정수여야 합니다.")
-    if best_score < 0:
-        raise ValueError("최고 점수는 0 이상이어야 합니다.")
+    best_score = _require_nonnegative_int(best_score, "best_score")
+    if best_score > 100:
+        raise ValueError("최고 점수는 100 이하여야 합니다.")
+    best_correct = _require_nonnegative_int(best_correct, "best_correct")
+    best_total = _require_nonnegative_int(best_total, "best_total")
+    if best_correct > best_total:
+        raise ValueError("맞힌 문제 수는 전체 문제 수보다 클 수 없습니다.")
     if not all(isinstance(quiz, Quiz) for quiz in quizzes):
         raise TypeError("저장할 모든 항목은 Quiz 객체여야 합니다.")
 
     data = {
         "quizzes": [quiz.to_dict() for quiz in quizzes],
         "best_score": best_score,
+        "best_correct": best_correct,
+        "best_total": best_total,
     }
 
     try:

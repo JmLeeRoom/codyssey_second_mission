@@ -81,28 +81,109 @@ class QuizGame:
             print("⚠️ 입력이 비어 있습니다. 내용을 입력하세요.")
 
     def play_quiz(self) -> None:
-        """1번 메뉴: 퀴즈 풀기 기능의 자리다."""
-        print("\n🚧 [퀴즈 풀기] 기능 준비 중입니다.")
+        """저장된 퀴즈를 순서대로 출제하고 최고 기록을 갱신한다."""
+        if not self.quizzes:
+            print("\n⚠️ 등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해 주세요.")
+            return
+
+        total = len(self.quizzes)
+        correct = 0
+        print(f"\n📝 자료구조 퀴즈를 시작합니다! (총 {total}문제)")
+
+        for number, quiz in enumerate(self.quizzes, start=1):
+            print("\n" + "-" * 40)
+            quiz.display(number)
+            user_answer = self.ask_int("\n정답 입력 (1-4): ", 1, 4)
+
+            if quiz.is_correct(user_answer):
+                correct += 1
+                print("✅ 정답입니다!")
+            else:
+                print(
+                    f"❌ 오답입니다! 정답은 {quiz.answer}번 "
+                    f"({quiz.get_correct_text()})입니다."
+                )
+
+        score = round(correct / total * 100)
+        print("\n" + "=" * 40)
+        print(f"🏆 결과: {total}문제 중 {correct}문제 정답! ({score}점)")
+
+        has_previous_record = self.best_total > 0 or self.best_score > 0
+        if not has_previous_record or score > self.best_score:
+            self.best_score = score
+            self.best_correct = correct
+            self.best_total = total
+
+            if has_previous_record:
+                print("🎉 새로운 최고 점수입니다!")
+            else:
+                print("🎉 첫 기록이 저장되었습니다!")
+            self.save_state()
+
+        print("=" * 40)
 
     def add_quiz(self) -> None:
-        """2번 메뉴: 퀴즈 추가 기능의 자리다."""
-        print("\n🚧 [퀴즈 추가] 기능 준비 중입니다.")
+        """사용자 입력으로 새 퀴즈를 추가하고 즉시 저장한다."""
+        print("\n📌 새로운 자료구조 퀴즈를 추가합니다.\n")
+        question = self.ask_text("문제를 입력하세요: ")
+
+        choices: list[str] = []
+        for number in range(1, 5):
+            choices.append(self.ask_text(f"선택지 {number}: "))
+
+        answer = self.ask_int("정답 번호 (1-4): ", 1, 4)
+        self.quizzes.append(Quiz(question, choices, answer))
+
+        if self.save_state():
+            print("\n✅ 퀴즈가 성공적으로 추가되었습니다!")
+        else:
+            print("\n⚠️ 퀴즈는 추가됐지만 파일 저장에 실패했습니다.")
 
     def show_quiz_list(self) -> None:
-        """3번 메뉴: 퀴즈 목록 기능의 자리다."""
-        print("\n🚧 [퀴즈 목록] 기능 준비 중입니다.")
+        """등록된 퀴즈의 번호와 문제만 출력한다."""
+        if not self.quizzes:
+            print("\n⚠️ 등록된 퀴즈가 없습니다.")
+            return
+
+        print(f"\n📋 등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        print("-" * 40)
+        for number, quiz in enumerate(self.quizzes, start=1):
+            print(f"[{number}] {quiz.question}")
+        print("-" * 40)
 
     def show_score(self) -> None:
-        """4번 메뉴: 점수 확인 기능의 자리다."""
-        print("\n🚧 [점수 확인] 기능 준비 중입니다.")
+        """최고 점수와 해당 기록의 정답 수를 출력한다."""
+        if self.best_total == 0 and self.best_score == 0:
+            print("\n⚠️ 아직 퀴즈를 풀지 않았습니다. 먼저 퀴즈를 풀어보세요!")
+            return
+
+        if self.best_total == 0:
+            print(f"\n🏆 최고 점수: {self.best_score}점")
+            print("   (이전 저장 데이터에는 정답 수 정보가 없습니다.)")
+            return
+
+        print(
+            f"\n🏆 최고 점수: {self.best_score}점 "
+            f"({self.best_total}문제 중 {self.best_correct}문제 정답)"
+        )
 
     def save_state(self) -> bool:
-        """현재 퀴즈 목록과 최고 점수를 JSON 파일에 저장한다."""
-        return save_quiz_state(self.quizzes, self.best_score)
+        """현재 퀴즈 목록과 상세 최고 기록을 JSON 파일에 저장한다."""
+        return save_quiz_state(
+            self.quizzes,
+            self.best_score,
+            best_correct=self.best_correct,
+            best_total=self.best_total,
+        )
 
     def load_state(self) -> None:
         """저장된 데이터를 불러오고, 실패하면 기본 퀴즈로 복구한다."""
-        self.quizzes, self.best_score = load_quiz_state()
+        (
+            self.quizzes,
+            self.best_score,
+            self.best_correct,
+            self.best_total,
+        ) = load_quiz_state(include_details=True)
 
 
 def _save_before_exit(game: QuizGame) -> None:
