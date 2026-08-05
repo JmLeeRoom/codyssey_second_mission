@@ -186,7 +186,7 @@ codyssey_second_mission/
 
 권장 방침은 실행 중 계속 바뀌는 <code>state.json</code>과 <code>state.json.bak</code>를 <code>.gitignore</code>에 넣는 것입니다. 이렇게 하면 개인 퀴즈·점수 변경으로 Git 이력이 불필요하게 늘어나지 않으며, 파일이 없는 첫 실행 복구도 검증할 수 있습니다.
 
-현재 저장소에는 <code>.gitignore</code>와 <code>state.json</code>이 아직 없으므로, 이 방침은 해당 파일을 추가할 때 적용해야 합니다.
+현재 저장소는 이 방침을 적용해 <code>state.json</code>과 <code>state.json.bak</code>를 <code>.gitignore</code>로 추적 제외합니다.
 
 ## 7. 화면 및 제출 증빙
 
