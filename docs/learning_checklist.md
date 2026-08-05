@@ -233,7 +233,7 @@ git version 2.43.0
 - [ ] 브랜치를 만들기 전 `git status`가 의도하지 않은 변경 없이 정리됐는지 확인하고, 필요한 기존 커밋을 `git push`한다.
 - [ ] `git branch --show-current`으로 현재 브랜치가 `feat/play-quiz`인지 확인한다.
 - [ ] 퀴즈 풀기와 최고 점수 작업을 `main`이 아닌 기능 브랜치에서 수행한다.
-
+![alt text](screenshots/git_branch.png)
 ### 4-2. play_quiz 구현
 
 - [x] `play_quiz(self)`를 구현한다.
@@ -256,7 +256,135 @@ git version 2.43.0
 - [x] 기존 최고 점수와 같거나 낮을 때는 최고 기록을 덮어쓰지 않는지 확인한다.
 - [x] 최고 기록을 상세히 표시한다면 `best_correct`와 `best_total`도 새 최고 기록일 때 함께 갱신한다.
 - [x] 점수 갱신 후 Step 5의 `save_state()`를 연결해 재시작 후에도 최고 점수가 남게 한다.
+```
+jmlee@swhs-lab:~/Project/second-project$ python3 main.py 
 
+========================================
+      🎯 자료구조 퀴즈 게임 🎯
+========================================
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료
+========================================
+선택: 1
+
+📝 자료구조 퀴즈를 시작합니다! (총 5문제)
+
+----------------------------------------
+[문제 1] 스택(Stack)의 주요 자료 처리 방식은 무엇인가요?
+  1. FIFO (선입선출)
+  2. LIFO (후입선출)
+  3. LILO (후입후출)
+  4. 무작위 접근
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+----------------------------------------
+[문제 2] 큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요?
+  1. 먼저 들어간 데이터가 먼저 나온다 (FIFO)
+  2. 나중에 들어간 데이터가 먼저 나온다 (LIFO)
+  3. 항상 가장 큰 값이 먼저 나온다
+  4. 순서와 관계없이 무작위로 나온다
+
+정답 입력 (1-4): 1
+✅ 정답입니다!
+
+----------------------------------------
+[문제 3] 해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요?
+  1. 데이터를 오름차순으로 정렬한다
+  2. 키(Key)를 해시값 또는 인덱스로 변환한다
+  3. 데이터를 후입선출 구조로 저장한다
+  4. 트리의 높이를 자동으로 균형 있게 맞춘다
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+----------------------------------------
+[문제 4] 이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요?
+  1. 왼쪽 자식은 부모보다 크고, 오른쪽 자식은 작다
+  2. 왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다
+  3. 모든 자식 노드는 부모보다 무조건 크다
+  4. 노드의 크기와 관계없이 무작위로 배치한다
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+----------------------------------------
+[문제 5] 정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요?
+  1. O(1)
+  2. O(log n)
+  3. O(n)
+  4. O(n²)
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+========================================
+🏆 결과: 5문제 중 5문제 정답! (100점)
+🎉 첫 기록이 저장되었습니다!
+========================================
+
+{
+  "quizzes": [
+    {
+      "question": "스택(Stack)의 주요 자료 처리 방식은 무엇인가요?",
+      "choices": [
+        "FIFO (선입선출)",
+        "LIFO (후입선출)",
+        "LILO (후입후출)",
+        "무작위 접근"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요?",
+      "choices": [
+        "먼저 들어간 데이터가 먼저 나온다 (FIFO)",
+        "나중에 들어간 데이터가 먼저 나온다 (LIFO)",
+        "항상 가장 큰 값이 먼저 나온다",
+        "순서와 관계없이 무작위로 나온다"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요?",
+      "choices": [
+        "데이터를 오름차순으로 정렬한다",
+        "키(Key)를 해시값 또는 인덱스로 변환한다",
+        "데이터를 후입선출 구조로 저장한다",
+        "트리의 높이를 자동으로 균형 있게 맞춘다"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요?",
+      "choices": [
+        "왼쪽 자식은 부모보다 크고, 오른쪽 자식은 작다",
+        "왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다",
+        "모든 자식 노드는 부모보다 무조건 크다",
+        "노드의 크기와 관계없이 무작위로 배치한다"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요?",
+      "choices": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "answer": 2
+    }
+  ],
+  "best_score": 100,
+  "best_correct": 5,
+  "best_total": 5
+}
+```
 ### 4-4. 브랜치 커밋·병합·증빙
 
 - [ ] `git commit -m "Feat: 퀴즈 출제 및 정답 채점 기능 구현"`으로 커밋 #6을 만든다.
@@ -267,7 +395,65 @@ git version 2.43.0
 - [ ] `git push origin main`으로 병합 결과를 원격에 올린다.
 - [ ] `git log --oneline --graph --all`에서 브랜치가 갈라졌다 병합된 그래프가 보이는지 확인한다.
 - [ ] 퀴즈 출제·정오답·결과·최고 점수 갱신이 한 화면에 보이도록 `docs/screenshots/play.png`을 캡처한다.
+```
+jmlee@swhs-lab:~/Project/second-project$ git add .
+jmlee@swhs-lab:~/Project/second-project$ git commit -m "Feat: 퀴즈 출제 및 정답 채점 기능 구현 최고 점수 비교 및 갱신 로직 추가"
+[feat/play-quiz 1181dea] Feat: 퀴즈 출제 및 정답 채점 기능 구현 최고 점수 비교 및 갱신 로직 추가
+ 5 files changed, 650 insertions(+), 74 deletions(-)
+ create mode 100644 docs/screenshots/git_branch.png
+ create mode 100644 docs/study/step2_quizgame_menu.md
+jmlee@swhs-lab:~/Project/second-project$ git push -u origin feat/play-quiz
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
+Delta compression using up to 72 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 27.48 KiB | 2.29 MiB/s, done.
+Total 10 (delta 7), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (7/7), completed with 7 local objects.
+remote: 
+remote: Create a pull request for 'feat/play-quiz' on GitHub by visiting:
+remote:      https://github.com/JmLeeRoom/codyssey_second_mission/pull/new/feat/play-quiz
+remote: 
+To https://github.com/JmLeeRoom/codyssey_second_mission.git
+ * [new branch]      feat/play-quiz -> feat/play-quiz
+branch 'feat/play-quiz' set up to track 'origin/feat/play-quiz'.
+jmlee@swhs-lab:~/Project/second-project$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+jmlee@swhs-lab:~/Project/second-project$ git merge --no-ff feat/play-quiz -m "Merge: 퀴즈 풀기 기능 병합"
+Merge made by the 'ort' strategy.
+ docs/learning_checklist.md        |  76 +++++++++++------------
+ docs/screenshots/git_branch.png   | Bin 0 -> 9418 bytes
+ docs/study/step2_quizgame_menu.md | 458 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ main.py                           | 103 +++++++++++++++++++++++++++----
+ storage.py                        |  87 ++++++++++++++++++--------
+ 5 files changed, 650 insertions(+), 74 deletions(-)
+ create mode 100644 docs/screenshots/git_branch.png
+ create mode 100644 docs/study/step2_quizgame_menu.md
+jmlee@swhs-lab:~/Project/second-project$ git push origin main
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 251 bytes | 251.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/JmLeeRoom/codyssey_second_mission.git
+   5ba64a0..0e84cc0  main -> main
+jmlee@swhs-lab:~/Project/second-project$ git log --oneline --graph --all
+*   0e84cc0 (HEAD -> main, origin/main) Merge: 퀴즈 풀기 기능 병합
+|\  
+| * 1181dea (origin/feat/play-quiz, feat/play-quiz) Feat: 퀴즈 출제 및 정답 채점 기능 구현 최고 점수 비교 및 갱신 로직 추가
+|/  
+* 5ba64a0 Feat: QuizGame 클래스 골격 및 공통 입력 검증 헬퍼 구현 메인 루프 및 안전 종료 처리
+* 6868c74 Feat: Quiz 클래스 구현 (문제 출력/정답 확인/딕셔너리 변환)
+* 9d106fd Chore: 프로젝트 초기 설정 및 .gitignore 추가
+* 001a6ff settingfinish
+* ee25482 수정
+* b25c749 update README.md
+* 40582bc test
+* d6877a1 first commit
+jmlee@swhs-lab:~/Project/second-project$ 
 
+```
+![alt text](screenshots/step3.png)
 ---
 
 ## 5. Step 4 — 퀴즈 추가, 목록 조회, 점수 확인
@@ -311,71 +497,160 @@ git version 2.43.0
 - [ ] 문제·선택지·정답 번호 입력과 저장 성공이 보이도록 `docs/screenshots/add_quiz.png`을 캡처한다.
 - [ ] 최고 점수 또는 미기록 안내가 보이도록 `docs/screenshots/score.png`을 캡처한다.
 - [ ] 데이터 로딩 문구와 1~5 메뉴가 보이도록 `docs/screenshots/menu.png`을 캡처한다.
+```
+jmlee@swhs-lab:~/Project/second-project$ python3 main.py 
 
+========================================
+      🎯 자료구조 퀴즈 게임 🎯
+========================================
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료
+========================================
+선택: 1
+
+📝 자료구조 퀴즈를 시작합니다! (총 5문제)
+
+----------------------------------------
+[문제 1] 스택(Stack)의 주요 자료 처리 방식은 무엇인가요?
+  1. FIFO (선입선출)
+  2. LIFO (후입선출)
+  3. LILO (후입후출)
+  4. 무작위 접근
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+----------------------------------------
+[문제 2] 큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요?
+  1. 먼저 들어간 데이터가 먼저 나온다 (FIFO)
+  2. 나중에 들어간 데이터가 먼저 나온다 (LIFO)
+  3. 항상 가장 큰 값이 먼저 나온다
+  4. 순서와 관계없이 무작위로 나온다
+
+정답 입력 (1-4): 3
+❌ 오답입니다! 정답은 1번 (먼저 들어간 데이터가 먼저 나온다 (FIFO))입니다.
+
+----------------------------------------
+[문제 3] 해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요?
+  1. 데이터를 오름차순으로 정렬한다
+  2. 키(Key)를 해시값 또는 인덱스로 변환한다
+  3. 데이터를 후입선출 구조로 저장한다
+  4. 트리의 높이를 자동으로 균형 있게 맞춘다
+
+정답 입력 (1-4): 4
+❌ 오답입니다! 정답은 2번 (키(Key)를 해시값 또는 인덱스로 변환한다)입니다.
+
+----------------------------------------
+[문제 4] 이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요?
+  1. 왼쪽 자식은 부모보다 크고, 오른쪽 자식은 작다
+  2. 왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다
+  3. 모든 자식 노드는 부모보다 무조건 크다
+  4. 노드의 크기와 관계없이 무작위로 배치한다
+
+정답 입력 (1-4): 5
+⚠️ 1~4 사이의 숫자를 입력하세요.
+
+정답 입력 (1-4): 1
+❌ 오답입니다! 정답은 2번 (왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다)입니다.
+
+----------------------------------------
+[문제 5] 정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요?
+  1. O(1)
+  2. O(log n)
+  3. O(n)
+  4. O(n²)
+
+정답 입력 (1-4): 2
+✅ 정답입니다!
+
+========================================
+🏆 결과: 5문제 중 2문제 정답! (40점)
+========================================
+
+========================================
+      🎯 자료구조 퀴즈 게임 🎯
+========================================
+1. 퀴즈 풀기
+2. 퀴즈 추가
+3. 퀴즈 목록
+4. 점수 확인
+5. 종료
+========================================
+선택: 4
+
+🏆 최고 점수: 100점 (5문제 중 5문제 정답)
+
+```
+![alt text](screenshots/step4.png)
 ---
 
 ## 6. Step 5 — state.json 영속성과 4대 복구 경로
 
 ### 6-1. 저장 위치와 상태 스키마
 
-- [ ] `json`과 `Path`를 필요한 모듈에서 import한다.
-- [ ] `STATE_FILE = Path(__file__).resolve().parent / "state.json"` 또는 동등한 경로 계산을 사용한다.
-- [ ] 상대 경로 `open("state.json")`만 사용해 실행 위치에 따라 데이터 파일이 달라지는 문제를 피한다.
-- [ ] `state.json`이 프로젝트 루트에 생성되는지 확인한다.
-- [ ] 저장 데이터에 `quizzes` 키를 포함한다.
-- [ ] 저장 데이터에 `best_score` 키를 포함한다.
-- [ ] 상세 최고 기록을 지원하면 `best_correct`와 `best_total` 키를 포함한다.
-- [ ] `quizzes`의 각 항목이 `question`, `choices`, `answer`를 가진 JSON 객체인지 확인한다.
-- [ ] 저장 키 이름과 자료형을 코드·README·체크리스트에서 일관되게 유지한다.
+- [x] `json`과 `Path`를 필요한 모듈에서 import한다.
+- [x] `STATE_FILE = Path(__file__).resolve().parent / "state.json"` 또는 동등한 경로 계산을 사용한다.
+- [x] 상대 경로 `open("state.json")`만 사용해 실행 위치에 따라 데이터 파일이 달라지는 문제를 피한다.
+- [x] `state.json`이 프로젝트 루트에 생성되는지 확인한다.
+- [x] 저장 데이터에 `quizzes` 키를 포함한다.
+- [x] 저장 데이터에 `best_score` 키를 포함한다.
+- [x] 상세 최고 기록을 지원하면 `best_correct`와 `best_total` 키를 포함한다.
+- [x] `quizzes`의 각 항목이 `question`, `choices`, `answer`를 가진 JSON 객체인지 확인한다.
+- [x] 저장 키 이름과 자료형을 코드·README·체크리스트에서 일관되게 유지한다.
 
 ### 6-2. save_state
 
-- [ ] `save_state(self)`를 구현한다.
-- [ ] `self.quizzes`의 각 `Quiz` 객체에 `to_dict()`를 호출해 JSON 호환 목록을 만든다.
-- [ ] `json.dump(self.quizzes, ...)`처럼 `Quiz` 객체를 직접 직렬화하지 않는다.
-- [ ] `with open(STATE_FILE, "w", encoding="utf-8") as file:` 형태로 파일을 연다.
-- [ ] `json.dump(data, file, ensure_ascii=False, indent=2)`를 사용한다.
-- [ ] `encoding="utf-8"`로 운영체제 기본 인코딩 차이에서 한글이 깨지는 일을 막는다.
-- [ ] `ensure_ascii=False`로 한글이 사람이 읽기 어려운 유니코드 이스케이프만으로 저장되지 않게 한다.
-- [ ] `indent=2`로 `state.json`을 사람이 검토 가능한 형식으로 저장한다.
-- [ ] 쓰기 실패에 대해 `except OSError`를 처리한다.
-- [ ] 저장 실패 시 안내를 출력하되 프로그램이 Traceback으로 비정상 종료하지 않는지 확인한다.
+- [x] `save_state(self)`를 구현한다.
+- [x] `self.quizzes`의 각 `Quiz` 객체에 `to_dict()`를 호출해 JSON 호환 목록을 만든다.
+- [x] `json.dump(self.quizzes, ...)`처럼 `Quiz` 객체를 직접 직렬화하지 않는다.
+- [x] `with open(STATE_FILE, "w", encoding="utf-8") as file:` 형태로 파일을 연다.
+- [x] `json.dump(data, file, ensure_ascii=False, indent=2)`를 사용한다.
+- [x] `encoding="utf-8"`로 운영체제 기본 인코딩 차이에서 한글이 깨지는 일을 막는다.
+- [x] `ensure_ascii=False`로 한글이 사람이 읽기 어려운 유니코드 이스케이프만으로 저장되지 않게 한다.
+- [x] `indent=2`로 `state.json`을 사람이 검토 가능한 형식으로 저장한다.
+- [x] 쓰기 실패에 대해 `except OSError`를 처리한다.
+- [x] 저장 실패 시 안내를 출력하되 프로그램이 Traceback으로 비정상 종료하지 않는지 확인한다.
 
 ### 6-3. load_state와 복구
 
-- [ ] `load_state(self)`를 구현한다.
-- [ ] 정상 파일을 `json.load()`로 읽고 각 퀴즈 dict를 `Quiz.from_dict()`로 복원한다.
-- [ ] `json.load()` 결과의 최상위 값이 `dict`인지, `data["quizzes"]`가 `list`인지 검증한다.
-- [ ] 정상 파일에서 `best_score` 및 선택적 상세 점수 필드를 불러온다.
-- [ ] 선택적 필드는 `int(data.get("best_score", 0))` 등 일관된 기본값·형 변환 정책으로 복원한다.
-- [ ] 정상 저장 데이터를 불러온 뒤 퀴즈 개수와 최고 점수를 포함한 로드 성공 안내를 출력한다.
-- [ ] **① FileNotFoundError**: 첫 실행에 `FileNotFoundError`를 처리하고 `get_default_quizzes()`의 기본 퀴즈 5개 이상으로 시작한다.
-- [ ] 파일이 없는 첫 실행은 정상 흐름으로 처리하며 프로그램이 중단되지 않는지 확인한다.
-- [ ] **② JSONDecodeError**: 깨진 JSON에서 `json.JSONDecodeError`를 처리하고 손상 안내를 출력한다.
-- [ ] JSON이 손상됐을 때 기존 `state.json`을 가능한 범위에서 `state.json.bak`으로 백업한다.
-- [ ] JSON 손상 뒤 기본 퀴즈 데이터로 복구하거나 초기화한 뒤 실행을 계속한다.
-- [ ] **③ KeyError·ValueError·TypeError**: 필수 키 누락, 잘못된 정답 범위, 잘못된 자료형을 각각 방어하고 안내 뒤 기본 데이터로 복구한다.
-- [ ] 읽어 온 `choices`가 4개인지, `answer`가 1~4인지 검증한다.
-- [ ] **④ OSError**: 권한·읽기 오류 등 `OSError`를 처리하고 안내 뒤 기본 데이터로 복구한다.
-- [ ] UTF-8 읽기 실패로 생길 수 있는 `UnicodeDecodeError`도 안내·복구 경로에서 처리되는지 확인한다.
-- [ ] 백업 자체가 `OSError`로 실패해도 기본 데이터 복구와 프로그램 실행이 중단되지 않는지 확인한다.
-- [ ] 파일 없음·손상·구조 이상·읽기 오류로 복구할 때 `best_score`, `best_correct`, `best_total`도 일관된 초기값으로 재설정한다.
-- [ ] 복구 경로 어디에서도 빨간 Traceback으로 프로그램이 끝나지 않는지 확인한다.
+- [x] `load_state(self)`를 구현한다.
+- [x] 정상 파일을 `json.load()`로 읽고 각 퀴즈 dict를 `Quiz.from_dict()`로 복원한다.
+- [x] `json.load()` 결과의 최상위 값이 `dict`인지, `data["quizzes"]`가 `list`인지 검증한다.
+- [x] 정상 파일에서 `best_score` 및 선택적 상세 점수 필드를 불러온다.
+- [x] 선택적 필드는 `int(data.get("best_score", 0))` 등 일관된 기본값·형 변환 정책으로 복원한다.
+- [x] 정상 저장 데이터를 불러온 뒤 퀴즈 개수와 최고 점수를 포함한 로드 성공 안내를 출력한다.
+- [x] **① FileNotFoundError**: 첫 실행에 `FileNotFoundError`를 처리하고 `get_default_quizzes()`의 기본 퀴즈 5개 이상으로 시작한다.
+- [x] 파일이 없는 첫 실행은 정상 흐름으로 처리하며 프로그램이 중단되지 않는지 확인한다.
+- [x] **② JSONDecodeError**: 깨진 JSON에서 `json.JSONDecodeError`를 처리하고 손상 안내를 출력한다.
+- [x] JSON이 손상됐을 때 기존 `state.json`을 가능한 범위에서 `state.json.bak`으로 백업한다.
+- [x] JSON 손상 뒤 기본 퀴즈 데이터로 복구하거나 초기화한 뒤 실행을 계속한다.
+- [x] **③ KeyError·ValueError·TypeError**: 필수 키 누락, 잘못된 정답 범위, 잘못된 자료형을 각각 방어하고 안내 뒤 기본 데이터로 복구한다.
+- [x] 읽어 온 `choices`가 4개인지, `answer`가 1~4인지 검증한다.
+- [x] **④ OSError**: 권한·읽기 오류 등 `OSError`를 처리하고 안내 뒤 기본 데이터로 복구한다.
+- [x] UTF-8 읽기 실패로 생길 수 있는 `UnicodeDecodeError`도 안내·복구 경로에서 처리되는지 확인한다.
+- [x] 백업 자체가 `OSError`로 실패해도 기본 데이터 복구와 프로그램 실행이 중단되지 않는지 확인한다.
+- [x] 파일 없음·손상·구조 이상·읽기 오류로 복구할 때 `best_score`, `best_correct`, `best_total`도 일관된 초기값으로 재설정한다.
+- [x] 복구 경로 어디에서도 빨간 Traceback으로 프로그램이 끝나지 않는지 확인한다.
 
 ### 6-4. 호출 지점과 재시작 검증
 
-- [ ] 게임 생성 시 `load_state()`를 호출한다.
-- [ ] `add_quiz()` 성공 직후 `save_state()`를 호출한다.
-- [ ] 최고 점수 갱신 직후 `save_state()`를 호출한다.
-- [ ] 메뉴 5번 종료와 Ctrl+C·EOF 안전 종료 시 가능한 범위에서 `save_state()`를 호출한다.
-- [ ] 퀴즈를 추가하고 종료한 뒤 재실행해 데이터가 유지되는지 확인한다.
-- [ ] 점수를 기록하고 재실행해 최고 기록이 유지되는지 확인한다.
-- [ ] `state.json`을 잠시 이름 변경하거나 제거한 뒤 첫 실행 복구가 되는지 확인한다.
-- [ ] `state.json`에 임의의 잘못된 문자열을 넣은 뒤 백업·안내·기본 데이터 복구가 되는지 확인한다.
-- [ ] `{"hello": "world"}`처럼 JSON 문법은 맞지만 필수 키가 빠진 파일도 안내·백업·기본 데이터 복구가 되는지 확인한다.
-- [ ] 프로젝트 상위 폴더에서 `python <프로젝트폴더>/main.py`를 실행해도 같은 프로젝트 루트의 `state.json`만 사용하는지 확인한다.
-- [ ] `python -m json.tool state.json`으로 저장 파일이 유효한 JSON인지, 한글이 읽기 가능한지 확인한다.
-- [ ] 복구 테스트 후 정상 데이터를 다시 만들고 손상 테스트 파일을 남기지 않는다.
+- [x] 게임 생성 시 `load_state()`를 호출한다.
+- [x] `add_quiz()` 성공 직후 `save_state()`를 호출한다.
+- [x] 최고 점수 갱신 직후 `save_state()`를 호출한다.
+- [x] 메뉴 5번 종료와 Ctrl+C·EOF 안전 종료 시 가능한 범위에서 `save_state()`를 호출한다.
+- [x] 퀴즈를 추가하고 종료한 뒤 재실행해 데이터가 유지되는지 확인한다.
+- [x] 점수를 기록하고 재실행해 최고 기록이 유지되는지 확인한다.
+- [x] `state.json`을 잠시 이름 변경하거나 제거한 뒤 첫 실행 복구가 되는지 확인한다.
+- [x] `state.json`에 임의의 잘못된 문자열을 넣은 뒤 백업·안내·기본 데이터 복구가 되는지 확인한다.
+- [x] `{"hello": "world"}`처럼 JSON 문법은 맞지만 필수 키가 빠진 파일도 안내·백업·기본 데이터 복구가 되는지 확인한다.
+- [x] 프로젝트 상위 폴더에서 `python <프로젝트폴더>/main.py`를 실행해도 같은 프로젝트 루트의 `state.json`만 사용하는지 확인한다.
+- [x] `python -m json.tool state.json`으로 저장 파일이 유효한 JSON인지, 한글이 읽기 가능한지 확인한다.
+- [x] 복구 테스트 후 정상 데이터를 다시 만들고 손상 테스트 파일을 남기지 않는다.
+
+> 검증에서는 `python3 -m json.tool state.json`으로 JSON 유효성을 확인했습니다. Python의 기본 출력은 한글을 이스케이프하므로, 원문 표시는 `python3 -m json.tool --no-ensure-ascii state.json`으로 확인했습니다. 저장 파일 자체는 `ensure_ascii=False`로 한글을 그대로 보존합니다.
 
 ### 6-5. Step 5 Git 체크포인트
 

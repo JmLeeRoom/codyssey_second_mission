@@ -16,6 +16,7 @@ class QuizGame:
         self.best_correct: int = 0
         self.best_total: int = 0
 
+        # 게임을 만들자마자 이전 퀴즈·최고 기록을 복원한다.
         self.load_state()
 
     def show_menu(self) -> None:
@@ -45,6 +46,7 @@ class QuizGame:
             elif choice == 4:
                 self.show_score()
             else:
+                # 정상 종료 전에도 현재 변경 사항을 한 번 더 저장한다.
                 self.save_state()
                 print("\n👋 프로그램을 종료합니다. 이용해 주셔서 감사합니다!")
                 return
@@ -118,6 +120,7 @@ class QuizGame:
                 print("🎉 새로운 최고 점수입니다!")
             else:
                 print("🎉 첫 기록이 저장되었습니다!")
+            # 최고 기록을 갱신한 즉시 재시작 후에도 남도록 저장한다.
             self.save_state()
 
         print("=" * 40)
@@ -134,6 +137,7 @@ class QuizGame:
         answer = self.ask_int("정답 번호 (1-4): ", 1, 4)
         self.quizzes.append(Quiz(question, choices, answer))
 
+        # 새 퀴즈는 다음 종료를 기다리지 않고 즉시 파일에 반영한다.
         if self.save_state():
             print("\n✅ 퀴즈가 성공적으로 추가되었습니다!")
         else:

@@ -9,6 +9,7 @@ from typing import Any
 from quiz import Quiz, get_default_quizzes
 
 
+# 현재 작업 디렉터리와 무관하게 storage.py가 있는 프로젝트 루트만 사용한다.
 STATE_FILE = Path(__file__).resolve().parent / "state.json"
 
 
@@ -48,9 +49,13 @@ def _parse_state(data: Any) -> tuple[list[Quiz], int, int, int]:
     if not isinstance(raw_quizzes, list):
         raise TypeError("state.json의 quizzes는 리스트여야 합니다.")
 
+    # Quiz.from_dict()가 각 항목의 dict 여부, 선택지 4개, 정답 1~4 규칙을
+    # 함께 검증하며, 하나라도 잘못되면 예외를 내어 복구 경로로 보낸다.
     quizzes = [Quiz.from_dict(raw_quiz) for raw_quiz in raw_quizzes]
 
-    best_score = _require_nonnegative_int(data["best_score"], "best_score")
+    # 저장 시에는 모든 점수 키를 기록한다. 다만 이전 버전 파일은 점수
+    # 필드가 없을 수 있으므로, 로드할 때만 0으로 보완해 호환성을 유지한다.
+    best_score = _require_nonnegative_int(data.get("best_score", 0), "best_score")
     if best_score > 100:
         raise ValueError("state.json의 best_score는 100 이하여야 합니다.")
 
@@ -74,6 +79,25 @@ def _select_state_values(
     return state[:2]
 
 
+def _restore_default_state(state_file: Path) -> tuple[list[Quiz], int, int, int]:
+    """기본 상태를 반환하고, 가능한 경우 지정한 경로에 즉시 저장한다.
+
+    파일이 없는 첫 실행과 손상 파일 복구 후에도 상태 파일을 남겨야 다음
+    실행부터 같은 프로젝트 루트의 데이터를 읽을 수 있다. 저장에 실패해도
+    게임은 기본 데이터로 계속 실행할 수 있도록 상태 자체는 항상 반환한다.
+    """
+    state = _default_state()
+    quizzes, best_score, best_correct, best_total = state
+    save_state(
+        quizzes,
+        best_score,
+        state_file,
+        best_correct=best_correct,
+        best_total=best_total,
+    )
+    return state
+
+
 def load_state(
     state_file: Path | str = STATE_FILE, *, include_details: bool = False
 ) -> tuple[list[Quiz], int] | tuple[list[Quiz], int, int, int]:
@@ -81,24 +105,46 @@ def load_state(
 
     기본값은 기존 호환성을 위해 ``(quizzes, best_score)``를 반환한다.
     ``include_details=True``이면 ``best_correct``와 ``best_total``까지 포함한
-    네 값을 반환한다. 파일 없음은 첫 실행의 정상 상태로 처리하며, JSON
-    또는 스키마가 손상된 파일은 가능한 경우 ``.bak``으로 보관한 뒤
-    :func:`get_default_quizzes`의 데이터로 복구한다.
+    네 값을 반환한다. 파일 없음은 첫 실행의 정상 상태로 처리하며 기본
+    상태를 그 경로에 생성한다. JSON 또는 스키마가 손상된 파일은 가능한
+    경우 ``.bak``으로 보관한 뒤 :func:`get_default_quizzes`의 데이터로
+    복구해 새 상태 파일을 생성한다.
     """
     path = Path(state_file)
 
     try:
         with path.open("r", encoding="utf-8") as file:
             data = json.load(file)
-        return _select_state_values(_parse_state(data), include_details)
+        state = _parse_state(data)
+        quizzes, best_score, _, _ = state
+        print(
+            "✅ 저장된 데이터 로드 완료! "
+            f"(퀴즈: {len(quizzes)}개, 최고 점수: {best_score}점)"
+        )
+        return _select_state_values(state, include_details)
     except FileNotFoundError:
-        return _select_state_values(_default_state(), include_details)
-    except (json.JSONDecodeError, KeyError, TypeError, ValueError, UnicodeDecodeError) as error:
+        # 첫 실행은 오류가 아니라 기본 상태 파일을 만드는 정상 흐름이다.
+        return _select_state_values(_restore_default_state(path), include_details)
+    except json.JSONDecodeError as error:
+        # JSON 문법이 깨진 파일은 보관할 수 있으면 백업한 뒤 다시 만든다.
         _backup_corrupted_file(path)
-        print(f"⚠️ 데이터 파일이 손상되었습니다: {error}")
+        print(f"⚠️ 데이터 파일의 JSON 형식이 손상되었습니다: {error}")
         print("🔧 기본 퀴즈 데이터로 복구합니다.")
-        return _select_state_values(_default_state(), include_details)
+        return _select_state_values(_restore_default_state(path), include_details)
+    except UnicodeDecodeError as error:
+        # UTF-8로 해석할 수 없는 파일도 손상 데이터처럼 백업·복구한다.
+        _backup_corrupted_file(path)
+        print(f"⚠️ 데이터 파일을 UTF-8로 읽을 수 없습니다: {error}")
+        print("🔧 기본 퀴즈 데이터로 복구합니다.")
+        return _select_state_values(_restore_default_state(path), include_details)
+    except (KeyError, TypeError, ValueError) as error:
+        # 필수 키, 점수 형식, 퀴즈 보기·정답 규칙 위반을 모두 복구한다.
+        _backup_corrupted_file(path)
+        print(f"⚠️ 데이터 파일의 구조가 올바르지 않습니다: {error}")
+        print("🔧 기본 퀴즈 데이터로 복구합니다.")
+        return _select_state_values(_restore_default_state(path), include_details)
     except OSError as error:
+        # 권한·장치 등 읽기 실패 시에는 파일을 덮어쓰지 않고 메모리에서만 복구한다.
         print(f"⚠️ 데이터 파일을 읽을 수 없습니다: {error}")
         print("🔧 기본 퀴즈 데이터로 복구합니다.")
         return _select_state_values(_default_state(), include_details)
@@ -127,18 +173,23 @@ def save_state(
     if not all(isinstance(quiz, Quiz) for quiz in quizzes):
         raise TypeError("저장할 모든 항목은 Quiz 객체여야 합니다.")
 
+    # Quiz 객체를 직접 json.dump()하면 직렬화할 수 없으므로 dict로 변환한다.
+    quiz_data = [quiz.to_dict() for quiz in quizzes]
     data = {
-        "quizzes": [quiz.to_dict() for quiz in quizzes],
+        "quizzes": quiz_data,
         "best_score": best_score,
         "best_correct": best_correct,
         "best_total": best_total,
     }
 
     try:
+        # UTF-8과 ensure_ascii=False로 한글을 그대로 보존하고, indent=2로
+        # 사람이 state.json 내용을 쉽게 검토할 수 있게 한다.
         with Path(state_file).open("w", encoding="utf-8") as file:
             json.dump(data, file, ensure_ascii=False, indent=2)
     except OSError as error:
         print(f"⚠️ 데이터 저장에 실패했습니다: {error}")
+        print("💡 프로그램은 계속 실행됩니다. 파일 저장 상태를 확인해 주세요.")
         return False
 
     return True

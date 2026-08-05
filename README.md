@@ -135,12 +135,15 @@ codyssey_second_mission/
 
 ### 경로와 인코딩
 
-- 경로: 프로젝트 루트의 <code>./state.json</code>
-- 권장 경로 계산: <code>Path(__file__).resolve().parent / "state.json"</code>
+- 경로: <code>storage.py</code>와 같은 프로젝트 루트의 <code>state.json</code>
+- 경로 계산: <code>STATE_FILE = Path(__file__).resolve().parent / "state.json"</code> — 실행한 현재 디렉터리와 무관하게 같은 파일을 사용
 - 인코딩: UTF-8
 - JSON 저장: <code>ensure_ascii=False</code>를 사용하여 한글을 원문 그대로 저장
+- 객체 변환: 각 <code>Quiz</code> 객체의 <code>to_dict()</code> 결과만 저장하여 JSON 직렬화 오류를 방지
+- 가독성: <code>indent=2</code>로 사람이 검토하기 쉬운 형식으로 저장
+- 저장 실패: 권한·경로·디스크 등의 <code>OSError</code>를 안내한 뒤 프로그램을 계속 실행
 
-예상 스키마는 다음과 같습니다.
+저장 스키마는 다음과 같습니다.
 
 ~~~json
 {
@@ -174,12 +177,19 @@ codyssey_second_mission/
 
 ### 첫 실행과 복구 동작
 
-구현 목표는 다음과 같습니다.
+현재 동작은 다음과 같습니다.
 
-1. 첫 실행에 파일이 없으면 <code>FileNotFoundError</code>를 처리하고, 코드에 포함한 기본 퀴즈 5개 이상으로 시작합니다.
-2. JSON 형식이 깨졌거나 필수 데이터가 잘못되면 <code>json.JSONDecodeError</code>, <code>KeyError</code>, <code>ValueError</code>, <code>OSError</code>를 처리합니다.
-3. 손상된 파일은 가능한 경우 <code>state.json.bak</code>으로 백업한 뒤 기본 데이터로 안전하게 복구합니다.
-4. 저장이나 읽기에 실패해도 사용자에게 원인을 안내하고 프로그램이 비정상 종료하지 않도록 합니다.
+1. 정상 파일은 퀴즈 객체와 최고 기록으로 복원한 뒤 퀴즈 개수와 최고 점수를 안내합니다. 이전 형식에 없는 점수 필드는 <code>0</code>으로 보완합니다.
+2. 첫 실행에 파일이 없으면 <code>FileNotFoundError</code>를 처리하고, 코드에 포함한 기본 퀴즈 5개 이상으로 <code>state.json</code>을 생성한 뒤 시작합니다.
+3. JSON 형식·UTF-8 인코딩·스키마가 잘못되면 <code>json.JSONDecodeError</code>, <code>UnicodeDecodeError</code>, <code>KeyError</code>, <code>TypeError</code>, <code>ValueError</code>를 처리합니다.
+4. 손상된 파일은 가능한 경우 <code>state.json.bak</code>으로 백업한 뒤 기본 퀴즈와 모든 최고 기록 값 <code>0</code>으로 안전하게 복구합니다. 백업 실패도 복구를 중단시키지 않습니다.
+5. 권한·읽기 오류 같은 <code>OSError</code>도 안내한 뒤 기본 데이터로 실행을 계속하므로 프로그램이 비정상 종료하지 않습니다.
+
+### 저장·로드 호출 시점
+
+- <code>QuizGame</code> 생성 직후 <code>load_state()</code>를 호출해 이전 상태를 복원합니다.
+- 퀴즈 추가와 최고 기록 갱신 직후, 메뉴 5번의 정상 종료 직전에 <code>save_state()</code>를 호출합니다.
+- <code>Ctrl+C</code>와 <code>EOF</code> 종료도 <code>_save_before_exit()</code>를 거쳐 저장을 시도합니다.
 
 ### Git 추적 방침
 
