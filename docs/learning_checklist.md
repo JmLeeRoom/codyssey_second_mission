@@ -6,25 +6,25 @@
 
 ## 0. 범위·완료 기준
 
-- [ ] Python 3.10 이상으로 동작하는 터미널 기반 4지선다 **자료구조(Data Structure) 퀴즈 게임**을 완성한다.
-- [ ] 메뉴에서 번호를 선택했을 때 퀴즈 풀기·추가·목록·점수 확인·종료 화면이 각각 동작한다.
-- [ ] 자료구조 주제의 퀴즈를 5개 이상 포함하고, 각 퀴즈가 문제·선택지 4개·정답 번호를 가진다.
-- [ ] 프로그램을 종료한 뒤 다시 실행해도 추가한 퀴즈와 최고 점수가 유지된다.
-- [ ] 최소 두 개의 클래스(권장: `Quiz`, `QuizGame`)로 책임을 나누고, 입력·게임 진행·저장 로직을 메서드 또는 모듈로 분리한다.
-- [ ] 프로젝트 루트의 `state.json`에서 UTF-8로 퀴즈와 점수를 읽고 쓴다.
-- [ ] 외부 패키지 없이 Python 표준 라이브러리만 사용한다.
-- [ ] 프로젝트 코드를 Public GitHub 저장소에 업로드한다.
-- [ ] 기능 단위의 의미 있는 커밋을 10개 이상 남긴다.
-- [ ] 기능 브랜치 생성 및 병합 이력을 1회 이상 남긴다.
-- [ ] `clone`과 `pull`을 각각 1회 이상 실제로 사용한 이력을 남긴다.
-- [ ] README에 프로젝트 개요, 주제 선정 이유, 실행 방법, 기능 목록, 파일 구조, 데이터 파일 설명의 6대 항목을 모두 작성한다.
-- [ ] `pip install` 또는 제3자 패키지 없이 구현하고, `json`, `pathlib`, `random` 등 필요한 표준 라이브러리만 사용한다.
+- [x] Python 3.10 이상으로 동작하는 터미널 기반 4지선다 **자료구조(Data Structure) 퀴즈 게임**을 완성한다.
+- [x] 메뉴에서 번호를 선택했을 때 퀴즈 풀기·추가·목록·점수 확인·종료 화면이 각각 동작한다.
+- [x] 자료구조 주제의 퀴즈를 5개 이상 포함하고, 각 퀴즈가 문제·선택지 4개·정답 번호를 가진다.
+- [x] 프로그램을 종료한 뒤 다시 실행해도 추가한 퀴즈와 최고 점수가 유지된다.
+- [x] 최소 두 개의 클래스(권장: `Quiz`, `QuizGame`)로 책임을 나누고, 입력·게임 진행·저장 로직을 메서드 또는 모듈로 분리한다.
+- [x] 프로젝트 루트의 `state.json`에서 UTF-8로 퀴즈와 점수를 읽고 쓴다.
+- [x] 외부 패키지 없이 Python 표준 라이브러리만 사용한다.
+- [x] 프로젝트 코드를 Public GitHub 저장소에 업로드한다.
+- [x] 기능 단위의 의미 있는 커밋을 10개 이상 남긴다.
+- [x] 기능 브랜치 생성 및 병합 이력을 1회 이상 남긴다.
+- [x] `clone`과 `pull`을 각각 1회 이상 실제로 사용한 이력을 남긴다.
+- [x] README에 프로젝트 개요, 주제 선정 이유, 실행 방법, 기능 목록, 파일 구조, 데이터 파일 설명의 6대 항목을 모두 작성한다.
+- [x] `pip install` 또는 제3자 패키지 없이 구현하고, `json`, `pathlib`, `random` 등 필요한 표준 라이브러리만 사용한다.
 
 > [!NOTE]
-> 현재 README는 실행 소스·실행 캡처가 아직 없는 상태를 “구현 목표”로 표시합니다. 이 체크리스트를 수행하면서 파일과 증빙이 실제로 생긴 경우에만 README의 상태 설명도 갱신합니다.
+> 2026-08-05 코드·실행·Git 이력 감사에서 `main.py`, `quiz.py`, `storage.py`의 핵심 기능과 저장·복구·재시작 흐름을 다시 검증했습니다. 아래의 `[x]`는 해당 증거가 있는 항목만 반영합니다.
 
 > [!CAUTION]
-> 문서 작성 시점의 저장소에는 실행 소스(`main.py`, `quiz.py`, `quiz_game.py`, `storage.py`), `.gitignore`, `state.json`, `docs/screenshots/`가 아직 없습니다. `docs/image.png`은 개발 환경 증빙으로만 사용할 수 있습니다. 실제 파일·이력·캡처가 없으면 관련 체크를 완료 처리하지 않습니다.
+> 전용 제출 스크린샷 `menu.png`, `play.png`, `add_quiz.png`, `score.png`, `git_graph.png`과 GitHub 웹 렌더링 확인은 아직 증거가 부족하므로 관련 항목을 완료 처리하지 않습니다. 사용자 지식 확인(Section 10)도 별도 확인이 필요합니다.
 
 ### 모든 기능 커밋에 적용할 공통 규율
 
@@ -151,7 +151,7 @@ git version 2.43.0
 ### 2-4. Step 1 Git 체크포인트
 
 - [ ] `git add main.py` 또는 실제 변경 파일을 스테이징한다.
-- [ ] `git commit -m "Feat: Quiz 클래스 구현 (문제 출력/정답 확인/딕셔너리 변환)"`으로 커밋 #2를 만든다.
+- [x] `git commit -m "Feat: Quiz 클래스 구현 (문제 출력/정답 확인/딕셔너리 변환)"`으로 커밋 #2를 만든다.
 - [ ] 기본 퀴즈 5개 이상을 추가한 뒤 `git add main.py` 또는 실제 변경 파일을 스테이징한다.
 - [ ] `git commit -m "Feat: 자료구조 주제 기본 퀴즈 데이터 5개 추가"`으로 커밋 #3을 만든다.
 - [ ] `git push`로 커밋 #3을 원격에 반영한다.
@@ -209,15 +209,15 @@ git version 2.43.0
 
 ### 3-5. 입력 예외 9종 실습과 Git 체크포인트
 
-- [ ] 메뉴 1~6 각각이 정상 분기하는지 확인한다.
-- [ ] 앞뒤 공백이 있는 메뉴 입력을 확인한다.
-- [ ] `abc` 입력을 확인한다.
-- [ ] 9 입력을 확인한다.
-- [ ] 0 입력과 -1 입력을 확인한다.
-- [ ] Enter만 누른 빈 입력을 확인한다.
-- [ ] `1.5` 입력을 확인한다.
-- [ ] Ctrl+C 안전 종료를 확인한다.
-- [ ] EOF 또는 파이프 입력 안전 종료를 확인한다.
+- [x] 메뉴 1~6 각각이 정상 분기하는지 확인한다.
+- [x] 앞뒤 공백이 있는 메뉴 입력을 확인한다.
+- [x] `abc` 입력을 확인한다.
+- [x] 9 입력을 확인한다.
+- [x] 0 입력과 -1 입력을 확인한다.
+- [x] Enter만 누른 빈 입력을 확인한다.
+- [x] `1.5` 입력을 확인한다.
+- [x] Ctrl+C 안전 종료를 확인한다.
+- [x] EOF 또는 파이프 입력 안전 종료를 확인한다.
 - [ ] `git commit -m "Feat: QuizGame 클래스 골격 및 공통 입력 검증 헬퍼 구현"`으로 커밋 #4를 만든다.
 - [ ] `git commit -m "Feat: 메인 메뉴 루프 및 KeyboardInterrupt/EOFError 안전 종료 처리"`으로 커밋 #5를 만든다.
 - [ ] 커밋 #5까지 `git push`를 실행한다.
@@ -231,8 +231,8 @@ git version 2.43.0
 
 - [ ] 퀴즈 풀기 코드를 작성하기 **전** `git checkout -b feat/play-quiz`을 실행한다.
 - [ ] 브랜치를 만들기 전 `git status`가 의도하지 않은 변경 없이 정리됐는지 확인하고, 필요한 기존 커밋을 `git push`한다.
-- [ ] `git branch --show-current`으로 현재 브랜치가 `feat/play-quiz`인지 확인한다.
-- [ ] 퀴즈 풀기와 최고 점수 작업을 `main`이 아닌 기능 브랜치에서 수행한다.
+- [x] `git branch --show-current`으로 현재 브랜치가 `feat/play-quiz`인지 확인한다.
+- [x] 퀴즈 풀기와 최고 점수 작업을 `main`이 아닌 기능 브랜치에서 수행한다.
 ![alt text](screenshots/git_branch.png)
 ### 4-2. play_quiz 구현
 
@@ -389,11 +389,11 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 - [ ] `git commit -m "Feat: 퀴즈 출제 및 정답 채점 기능 구현"`으로 커밋 #6을 만든다.
 - [ ] `git commit -m "Feat: 최고 점수 비교 및 갱신 로직 추가"`으로 커밋 #7을 만든다.
-- [ ] `git push -u origin feat/play-quiz`로 기능 브랜치를 원격에 push한다.
-- [ ] `git checkout main`으로 `main` 브랜치로 돌아온다.
-- [ ] `git merge --no-ff feat/play-quiz -m "Merge: 퀴즈 풀기 기능 병합"`으로 fast-forward가 아닌 병합 커밋 #8을 만든다.
-- [ ] `git push origin main`으로 병합 결과를 원격에 올린다.
-- [ ] `git log --oneline --graph --all`에서 브랜치가 갈라졌다 병합된 그래프가 보이는지 확인한다.
+- [x] `git push -u origin feat/play-quiz`로 기능 브랜치를 원격에 push한다.
+- [x] `git checkout main`으로 `main` 브랜치로 돌아온다.
+- [x] `git merge --no-ff feat/play-quiz -m "Merge: 퀴즈 풀기 기능 병합"`으로 fast-forward가 아닌 병합 커밋 #8을 만든다.
+- [x] `git push origin main`으로 병합 결과를 원격에 올린다.
+- [x] `git log --oneline --graph --all`에서 브랜치가 갈라졌다 병합된 그래프가 보이는지 확인한다.
 - [ ] 퀴즈 출제·정오답·결과·최고 점수 갱신이 한 화면에 보이도록 `docs/screenshots/play.png`을 캡처한다.
 ```
 jmlee@swhs-lab:~/Project/second-project$ git add .
@@ -657,7 +657,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 - [ ] `git commit -m "Feat: state.json 저장 기능 구현 (UTF-8, ensure_ascii=False)"`으로 커밋 #12를 만든다.
 - [ ] `git commit -m "Feat: state.json 불러오기 및 파일 부재/손상 시 자동 복구 처리"`으로 커밋 #13을 만든다.
 - [ ] 파일을 분리했다면 `git commit -m "Refactor: Quiz/QuizGame/storage 모듈 분리"`으로 선택 커밋 #14를 만든다.
-- [ ] 파일 입출력 커밋을 원격으로 `git push`한다.
+- [x] 파일 입출력 커밋을 원격으로 `git push`한다.
 
 ---
 
@@ -665,29 +665,29 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 ### 7-1. 복제본 만들기
 
-- [ ] 퀴즈 게임 개발과 핵심 push가 끝난 뒤 상위 폴더로 이동한다.
-- [ ] clone 전 원본에서 `git status`를 확인하고, 필요한 커밋을 원격에 `git push`한 상태인지 확인한다.
-- [ ] `git clone <저장소URL> quiz-clone`으로 별도 복제본을 만든다.
-- [ ] `cd quiz-clone`으로 복제본 디렉터리로 이동한다.
-- [ ] `ls -la`로 복제본에 프로젝트 파일이 생겼는지 확인한다.
-- [ ] `git log --oneline`으로 기존 커밋 이력이 복제됐는지 확인한다.
-- [ ] `git remote -v`로 복제본의 `origin`이 원격 저장소를 가리키는지 확인한다.
+- [x] 퀴즈 게임 개발과 핵심 push가 끝난 뒤 상위 폴더로 이동한다.
+- [x] clone 전 원본에서 `git status`를 확인하고, 필요한 커밋을 원격에 `git push`한 상태인지 확인한다.
+- [x] `git clone <저장소URL> quiz-clone`으로 별도 복제본을 만든다.
+- [x] `cd quiz-clone`으로 복제본 디렉터리로 이동한다.
+- [x] `ls -la`로 복제본에 프로젝트 파일이 생겼는지 확인한다.
+- [x] `git log --oneline`으로 기존 커밋 이력이 복제됐는지 확인한다.
+- [x] `git remote -v`로 복제본의 `origin`이 원격 저장소를 가리키는지 확인한다.
 
 ### 7-2. 복제본 변경을 원본으로 가져오기
 
-- [ ] `quiz-clone/README.md`에 `## 학습 회고` 섹션을 추가한다.
-- [ ] 회고에 배운 점 또는 구현 중 해결한 문제를 한 줄 이상 실제 경험으로 작성한다.
+- [x] `quiz-clone/README.md`에 `## 학습 회고` 섹션을 추가한다.
+- [x] 회고에 배운 점 또는 구현 중 해결한 문제를 한 줄 이상 실제 경험으로 작성한다.
 - [ ] 복제본에서 `git add README.md`를 실행한다.
-- [ ] `git commit -m "Docs: README에 학습 회고 추가"`으로 커밋 #16을 만든다.
-- [ ] 복제본에서 `git push origin main`을 실행한다.
+- [x] `git commit -m "Docs: README에 학습 회고 추가"`으로 커밋 #16을 만든다.
+- [x] 복제본에서 `git push origin main`을 실행한다.
 - [ ] GitHub 웹에서 복제본이 push한 회고 커밋과 README 변경이 보이는지 확인한다.
-- [ ] 원래 작업 디렉터리로 돌아간다.
-- [ ] pull 전 `tail -n 5 README.md` 또는 동등한 명령으로 회고가 아직 없는 상태를 확인한다.
-- [ ] 원본에서 `git pull origin main`을 실행한다.
-- [ ] 원본 `README.md`에 복제본에서 작성한 회고가 실제로 반영됐는지 확인한다.
-- [ ] `git log -3 --oneline`과 `tail -n 5 README.md`로 회고 커밋·내용이 pull 뒤 반영됐는지 확인한다.
+- [x] 원래 작업 디렉터리로 돌아간다.
+- [x] pull 전 `tail -n 5 README.md` 또는 동등한 명령으로 회고가 아직 없는 상태를 확인한다.
+- [x] 원본에서 `git pull origin main`을 실행한다.
+- [x] 원본 `README.md`에 복제본에서 작성한 회고가 실제로 반영됐는지 확인한다.
+- [x] `git log -3 --oneline`과 `tail -n 5 README.md`로 회고 커밋·내용이 pull 뒤 반영됐는지 확인한다.
 - [ ] pull 충돌이 나면 `git status`로 충돌 파일을 확인하고, 필요한 로컬 변경을 커밋하거나 `git stash`한 뒤 다시 pull한다.
-- [ ] `clone`과 `pull`이 서로 다른 사용 시점(새 복제본 생성 vs 기존 복제본 동기화)임을 설명할 수 있다.
+- [x] `clone`과 `pull`이 서로 다른 사용 시점(새 복제본 생성 vs 기존 복제본 동기화)임을 설명할 수 있다.
 
 ---
 
@@ -799,7 +799,7 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 ### 9-6. README 문서 Git 체크포인트
 
 - [ ] README 6대 항목과 실제 캡처를 추가한 뒤 `git add README.md docs/`를 실행한다.
-- [ ] `git commit -m "Docs: README 6대 항목 및 실행 화면 스크린샷 추가"`으로 커밋 #15를 만든다.
+- [x] `git commit -m "Docs: README 6대 항목 및 실행 화면 스크린샷 추가"`으로 커밋 #15를 만든다.
 - [ ] `git push` 후 GitHub에서 README의 표·코드 블록·이미지·상대 링크가 정상 렌더링되는지 확인한다.
 
 ---
@@ -852,30 +852,30 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 ### 11-1. 실제 동작 검증
 
-- [ ] Python 3.10 이상 환경에서 `python main.py` 또는 `python3 main.py`를 실행한다.
-- [ ] 외부 패키지 설치 오류 없이 메뉴가 표시되는지 확인한다.
-- [ ] 메뉴 1~6이 모두 동작하는지 다시 확인한다.
-- [ ] 자료구조 기본 퀴즈 5개 이상, 선택지 4개, 정답 1~4 규칙을 다시 확인한다.
-- [ ] 퀴즈 추가·재시작·목록·점수 확인·삭제(구현한 경우)를 연속으로 시험한다.
-- [ ] 입력 공백·빈 입력·문자·소수·범위 밖 숫자·Ctrl+C·EOF를 다시 시험한다.
-- [ ] `state.json` 부재·손상·읽기/쓰기 오류의 복구 경로를 다시 시험한다.
+- [x] Python 3.10 이상 환경에서 `python main.py` 또는 `python3 main.py`를 실행한다.
+- [x] 외부 패키지 설치 오류 없이 메뉴가 표시되는지 확인한다.
+- [x] 메뉴 1~6이 모두 동작하는지 다시 확인한다.
+- [x] 자료구조 기본 퀴즈 5개 이상, 선택지 4개, 정답 1~4 규칙을 다시 확인한다.
+- [x] 퀴즈 추가·재시작·목록·점수 확인·삭제(구현한 경우)를 연속으로 시험한다.
+- [x] 입력 공백·빈 입력·문자·소수·범위 밖 숫자·Ctrl+C·EOF를 다시 시험한다.
+- [x] `state.json` 부재·손상·읽기/쓰기 오류의 복구 경로를 다시 시험한다.
 
 ### 11-2. Git 이력과 원격 저장소 검증
 
-- [ ] `git log --oneline | wc -l` 결과가 의미 있는 커밋 10개 이상인지 확인한다.
+- [x] `git log --oneline | wc -l` 결과가 의미 있는 커밋 10개 이상인지 확인한다.
 - [ ] 커밋 메시지가 `Feat:`, `Fix:`, `Docs:`, `Refactor:`, `Chore:`처럼 변경 내용을 드러내는 형식인지 확인한다.
 - [ ] `update`, `수정`, `commit1`처럼 작업 내용을 알 수 없는 메시지만으로 커밋하지 않는다.
-- [ ] `git log --oneline --graph --all`에 `feat/play-quiz`의 병합 이력이 보이는지 확인한다.
-- [ ] `git log --format="%h %s"`으로 10개 이상 커밋이 실제 기능 단위의 변경 요약 메시지인지 다시 확인한다.
-- [ ] `git remote -v`로 올바른 원격 저장소가 연결돼 있는지 확인한다.
+- [x] `git log --oneline --graph --all`에 `feat/play-quiz`의 병합 이력이 보이는지 확인한다.
+- [x] `git log --format="%h %s"`으로 10개 이상 커밋이 실제 기능 단위의 변경 요약 메시지인지 다시 확인한다.
+- [x] `git remote -v`로 올바른 원격 저장소가 연결돼 있는지 확인한다.
 - [ ] `git status`에서 제출 직전 의도하지 않은 변경이 없는지 확인한다.
 - [ ] GitHub 저장소 URL을 시크릿 창 또는 로그아웃 상태에서 열어 Public 접근이 가능한지 확인한다.
 - [ ] GitHub 저장소 URL을 제출한다.
-- [ ] `ls -la`로 제출해야 할 소스·README·docs·스크린샷 파일이 작업 디렉터리에 실제 있는지 확인한다.
+- [x] `ls -la`로 제출해야 할 소스·README·docs·스크린샷 파일이 작업 디렉터리에 실제 있는지 확인한다.
 
 ### 11-3. 제출 증빙 스크린샷 6종
 
-- [ ] `docs/screenshots/env_setup.png` 또는 동등한 환경 화면: Python 3.10+·Git 버전·Git 전역 설정을 증빙한다.
+- [x] `docs/screenshots/env_setup.png` 또는 동등한 환경 화면: Python 3.10+·Git 버전·Git 전역 설정을 증빙한다.
 - [ ] `docs/screenshots/menu.png`: 데이터 로딩 안내와 1~6 메뉴를 증빙한다.
 - [ ] `docs/screenshots/play.png`: 출제·정오답·100점 환산·최고 점수 갱신을 증빙한다.
 - [ ] `docs/screenshots/add_quiz.png`: 문제·선택지 4개·정답 번호 입력과 성공 메시지를 증빙한다.
@@ -885,9 +885,9 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 ### 11-4. 최종 제출 전 마지막 확인
 
-- [ ] README 6대 항목이 모두 있고, 실행 방법대로 실행 가능한지 확인한다.
+- [x] README 6대 항목이 모두 있고, 실행 방법대로 실행 가능한지 확인한다.
 - [ ] GitHub 웹에서 소스 코드, README, 스크린샷이 모두 push됐는지 확인한다.
 - [ ] 문서의 파일 구조·기능 설명·상태 스키마가 실제 구현과 모순되지 않는지 확인한다.
 - [ ] 스크린샷·Git 이력·GitHub Public 상태가 체크리스트의 주장과 일치하는지 확인한다.
-- [ ] `state.json`, `state.json.bak`, 가상환경, 캐시 파일이 실수로 커밋되지 않았는지 확인한다.
+- [x] `state.json`, `state.json.bak`, 가상환경, 캐시 파일이 실수로 커밋되지 않았는지 확인한다.
 - [ ] 필요한 변경을 마지막으로 커밋·push한 뒤 `git status`가 깨끗한지 확인한다.

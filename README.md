@@ -106,7 +106,7 @@ macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리
 | 앞뒤 공백 입력 | <code>strip()</code>으로 공백을 제거한 뒤 처리합니다. 예: <code>  1  </code> → 1 |
 | 빈 입력 | 경고 문구를 보여 주고 같은 입력 단계에서 다시 받습니다. |
 | 숫자가 아닌 입력 | <code>abc</code>, <code>1.5</code> 등은 안내 후 재입력받습니다. |
-| 허용 범위 밖 숫자 | 메뉴의 0·9, 정답 번호의 0·5 등은 범위를 안내하고 재입력받습니다. |
+| 허용 범위 밖 숫자 | 메뉴의 0·9, 정답 번호의 5 이상 등은 범위를 안내하고 재입력받습니다. (정답 입력 중 0은 범위 오류가 아니라 힌트 요청으로 별도 처리됩니다) |
 | Ctrl+C 또는 EOF | <code>KeyboardInterrupt</code>, <code>EOFError</code>를 잡아 트레이스백 없이 저장 가능한 상태를 저장하고 안전 종료합니다. |
 | 데이터 파일 없음·손상 | 기본 퀴즈 데이터로 실행을 계속하고, 손상 시 복구 안내를 표시합니다. |
 
@@ -130,7 +130,7 @@ codyssey_second_mission/
     ├── readme_requirements_list.md   # README 작성 요구사항
     ├── reference.md                  # 과제 참고 명세
     ├── screenshots/                  # 터미널·Git 실행 증빙 이미지
-    └── study/                        # 단계별 학습 노트
+    └── study/                        # 단계별 학습 노트·자가 점검
         ├── step0_dev_environment_git_init.md
         ├── step1_quiz_model.md
         ├── step2_quizgame_menu.md
@@ -138,7 +138,11 @@ codyssey_second_mission/
         ├── step4_add_list_score.md
         ├── step5_state_persistence.md
         ├── step6_clone_pull.md
-        └── step7_bonus_features.md
+        ├── step7_bonus_features.md
+        ├── step8_python_basics_self_check.md
+        ├── step9_oop_self_check.md
+        ├── step10_file_io_json_self_check.md
+        └── step11_git_github_self_check.md
 ~~~
 
 ### 추가 예정 구조
@@ -152,7 +156,7 @@ quiz_game.py  # [추가 예정] QuizGame의 게임 흐름과 입력 검증을 �
 ### 주요 파일과 클래스 역할
 
 | 파일 또는 클래스 | 구분 | 책임 |
-| --- | --- |
+| --- | --- | --- |
 | <code>main.py</code> | 실행·게임 흐름 | <code>main()</code>이 프로그램을 시작하고 <code>QuizGame</code>이 메뉴와 게임 흐름을 관리합니다. <code>KeyboardInterrupt</code>·<code>EOFError</code>가 발생하면 가능한 범위에서 저장한 뒤 안전하게 종료합니다. |
 | <code>QuizGame</code> (<code>main.py</code>) | 게임 제어 클래스 | 퀴즈 풀기·추가·목록·점수·삭제를 조합하고, 메뉴 루프와 <code>ask_int()</code>·<code>ask_text()</code>·<code>ask_yes_no()</code> 입력 검증을 담당합니다. |
 | <code>quiz.py</code> / <code>Quiz</code> | 퀴즈 모델 | 질문, 선택지 4개, 정답 번호, 선택적 힌트를 표현합니다. 문제 출력·정답 판정과 <code>to_dict()</code>·<code>from_dict()</code> JSON 변환을 담당합니다. |
@@ -263,6 +267,16 @@ Python 3.12.3, Git 2.43.0, Git 전역 사용자 설정을 확인한 실제 터�
 
 ![기능 브랜치 병합과 git log --oneline --graph --all 화면](docs/screenshots/step3.png)
 
+![커밋, 원격 push, git log --oneline 결과](docs/screenshots/step1_git.png)
+
+> 로컬 커밋(<code>git commit</code>)부터 원격 push(<code>git push</code>), 이후 <code>git log --oneline</code> 확인까지 이어지는 실제 터미널 기록입니다.
+
+![GitHub 저장소 초기 체크포인트 — 5커밋 시점, Public 배지 확인](docs/screenshots/git_setting.png)
+
+![GitHub 저장소 체크포인트 — 6커밋 시점, Public 배지 확인](docs/screenshots/git_check_point.png)
+
+> 저장소 이름 옆의 **Public** 배지로 이 GitHub 저장소가 비공개가 아닌 공개 상태임을 확인할 수 있습니다.
+
 ### 증빙 파일 매핑 현황
 
 존재하지 않는 <code>menu.png</code>, <code>play.png</code>, <code>add_quiz.png</code>, <code>score.png</code>, <code>git_graph.png</code>는 이미지로 미리 연결하지 않았습니다.
@@ -276,8 +290,8 @@ Python 3.12.3, Git 2.43.0, Git 전역 사용자 설정을 확인한 실제 터�
 | 퀴즈 추가 | 문제·선택지 4개·정답 입력과 저장 성공 | 없음 | 촬영 후 연결 예정 |
 | 점수 확인 | 현재 최고 기록·최근 히스토리 또는 미기록 상태 | 없음 | 촬영 후 연결 예정 |
 | Git 브랜치·병합 | <code>feat/play-quiz</code> 브랜치와 <code>--no-ff</code> 병합 | <code>docs/screenshots/git_branch.png</code>, <code>docs/screenshots/step3.png</code> | 연결됨 |
-| Git 커밋·push | 커밋과 원격 push 이력 | <code>docs/screenshots/step1_git.png</code> | 보유 |
-| GitHub 체크포인트 | 원격 저장소의 초기 체크포인트 화면 | <code>docs/screenshots/git_setting.png</code>, <code>docs/screenshots/git_check_point.png</code> | 보유 |
+| Git 커밋·push | 커밋, 원격 push, <code>git log --oneline</code> 이력 | <code>docs/screenshots/step1_git.png</code> | 연결됨 |
+| GitHub 체크포인트·Public 상태 | 원격 저장소의 초기 체크포인트와 Public 공개 배지 | <code>docs/screenshots/git_setting.png</code>, <code>docs/screenshots/git_check_point.png</code> | 연결됨 |
 
 ## 8. Git 워크플로우 검증 계획
 
@@ -287,6 +301,7 @@ Python 3.12.3, Git 2.43.0, Git 전역 사용자 설정을 확인한 실제 터�
 - 메뉴, Quiz 모델, 기본 데이터, 퀴즈 풀기, 퀴즈 추가, 목록, 점수, 파일 입출력, README 등 기능 단위로 의미 있는 커밋을 10개 이상 남깁니다.
 - <code>feat/play-quiz</code> 같은 기능 브랜치에서 작업하고 <code>--no-ff</code> 병합 이력을 남깁니다.
 - 별도 디렉터리에 저장소를 복제해 간단한 변경을 push한 뒤, 원래 작업 디렉터리에서 <code>pull</code>로 반영되는 것을 확인합니다.
+- GitHub 저장소가 로그인하지 않은 사용자도 접근할 수 있는 **Public** 상태인지 확인합니다 (<code>docs/screenshots/git_setting.png</code>, <code>docs/screenshots/git_check_point.png</code>의 Public 배지로 확인).
 
 권장 커밋 메시지 형식은 다음과 같습니다.
 
@@ -298,18 +313,18 @@ Refactor: QuizGame 책임 분리
 Chore: Git ignore 규칙 추가
 ~~~
 
-현재 Git 이력은 이 요구사항을 아직 충족하지 않는 문서 작성 단계이므로, 구현 과정에서 실제 커밋과 병합으로 증빙을 보완해야 합니다.
+검증 시점에는 `git log --oneline`에서 15개 커밋을 확인했고, `feat/play-quiz` 브랜치의 `--no-ff` 병합 커밋(`0e84cc0`)과 `quiz-clone`에서 만든 회고 커밋을 원본으로 `pull`한 이력도 확인했습니다. 다만 초기 이력에는 `test`, `수정`처럼 설명이 부족한 메시지가 남아 있으므로, 이후 커밋은 위 형식처럼 변경 내용을 분명히 적는 방침을 유지합니다.
 
 ## 9. 구현 완료 전 점검표
 
-- [ ] Python 3.10 이상에서 <code>python main.py</code>가 외부 패키지 없이 실행된다.
-- [ ] 자료구조 기본 퀴즈 5개 이상이 문제·선택지 4개·정답 번호와 함께 제공된다.
-- [ ] 메뉴 6종과 빈 퀴즈·미기록·빈 삭제 목록 상태가 모두 처리된다.
-- [ ] 공백, 빈 입력, 숫자 변환 실패, 범위 밖 입력, Ctrl+C, EOF를 안전하게 처리한다.
-- [ ] <code>state.json</code>에 UTF-8로 저장하고 파일 없음·손상 상태에서 복구한다.
-- [ ] <code>Quiz</code>, <code>QuizGame</code>을 포함해 책임이 분리된 클래스 구조를 갖춘다.
-- [ ] 실행 화면과 Git 그래프 증빙을 추가한다.
-- [ ] 의미 있는 커밋 10개 이상과 기능 브랜치 병합 이력이 있다.
+- [x] Python 3.10 이상에서 <code>python main.py</code>가 외부 패키지 없이 실행된다.
+- [x] 자료구조 기본 퀴즈 5개 이상이 문제·선택지 4개·정답 번호와 함께 제공된다.
+- [x] 메뉴 6종과 빈 퀴즈·미기록·빈 삭제 목록 상태가 모두 처리된다.
+- [x] 공백, 빈 입력, 숫자 변환 실패, 범위 밖 입력, Ctrl+C, EOF를 안전하게 처리한다.
+- [x] <code>state.json</code>에 UTF-8로 저장하고 파일 없음·손상 상태에서 복구한다.
+- [x] <code>Quiz</code>, <code>QuizGame</code>을 포함해 책임이 분리된 클래스 구조를 갖춘다.
+- [ ] 실행 화면과 Git 그래프 증빙을 추가한다. (환경·기본 퀴즈·과거 실행·브랜치 병합·커밋 이력·Public 상태 캡처는 연결 완료. 현재 1~6 메뉴·퀴즈 추가·점수 확인 전용 캡처는 촬영 예정)
+- [x] 의미 있는 커밋 10개 이상과 기능 브랜치 병합 이력이 있다.
 
 ## 참고 문서
 
