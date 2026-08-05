@@ -1,43 +1,45 @@
 # 🎯 자료구조 퀴즈 게임
 
-> Python 기초, 객체 지향 프로그래밍(OOP), JSON 파일 입출력, Git 워크플로우를 함께 익히기 위한 터미널 기반 4지선다 퀴즈 게임 프로젝트입니다.
-
-## 문서 상태
-
-이 README는 [문서 요구사항](docs/readme_requirements_list.md)을 바탕으로 작성한 프로젝트 안내 및 구현 명세입니다. 현재 저장소에는 실행 소스와 실행 화면 캡처가 아직 추가되지 않았습니다. 따라서 아래의 기능, 파일 구조, 데이터 복구 동작은 **구현 목표**로 표기하며, 완료 후 실제 동작과 스크린샷으로 검증해야 합니다.
+> Python 3.10+로 실행되는 터미널 기반 4지선다 퀴즈 게임입니다.
+> 자료구조 문제를 풀고, 힌트를 사용하며, 퀴즈 추가·삭제와 최고 기록·최근 게임 기록 조회를 할 수 있습니다.
+> 퀴즈와 점수 데이터는 JSON 파일에 저장되어 프로그램을 다시 실행해도 유지됩니다.
 
 ## 1. 프로젝트 개요
 
-자료구조를 주제로 한 콘솔 4지선다 퀴즈 게임을 만듭니다. 사용자는 퀴즈를 풀고, 새 문제를 등록하고, 목록과 최고 점수를 확인할 수 있습니다. 퀴즈와 최고 점수는 프로젝트 루트의 JSON 파일에 저장되어 프로그램을 다시 실행해도 유지됩니다.
+이 프로젝트는 실제로 동작하는 프로그램을 만들며 Python의 핵심 요소를 함께 연습하는 것을 목표로 합니다.
 
 이 프로젝트의 학습 목표는 다음과 같습니다.
 
-- Python 기본 문법과 입력·출력, 조건문·반복문을 실제 프로그램 흐름에 적용합니다.
-- <code>Quiz</code>, <code>QuizGame</code> 클래스로 역할을 분리해 객체 지향 설계를 연습합니다.
-- JSON 파일을 이용해 데이터를 저장·복구하고 예외를 안전하게 처리합니다.
-- 기능 단위 커밋과 브랜치 병합으로 Git/GitHub 작업 흐름을 기록합니다.
+- **Python 기본 문법**: 입력·출력, 조건문·반복문, 함수와 입력 검증을 실제 프로그램 흐름에 적용합니다.
+- **객체 지향 프로그래밍(OOP)**: <code>Quiz</code>와 <code>QuizGame</code> 클래스로 데이터와 게임 흐름의 책임을 분리합니다.
+- **JSON 영속성**: <code>state.json</code>에 퀴즈·점수·히스토리를 저장하고, 파일 손상 시 기본 데이터로 안전하게 복구합니다.
+- **Git 워크플로우**: 기능 단위 커밋, 브랜치 작업, clone·pull 실습으로 변경 이력을 관리합니다.
 
 ## 2. 퀴즈 주제와 선정 이유
 
-### 주제: 자료구조 (Data Structure)
+### 주제: **자료구조(Data Structure)**
 
-자료구조를 선택한 이유는 다음과 같습니다.
+자료구조를 주제로 선택한 이유는 다음과 같습니다.
 
-1. 스택의 LIFO, 큐의 FIFO처럼 정답이 명확해 객관적인 4지선다 문제를 만들기 좋습니다.
-2. 게임 내부에서도 퀴즈 목록은 <code>list</code>, 저장 데이터는 <code>dict</code>와 JSON으로 다루므로 학습 주제와 구현이 자연스럽게 연결됩니다.
-3. 스택, 큐, 해시 테이블, 탐색 복잡도는 언어가 바뀌어도 계속 쓰이는 기초 컴퓨터 과학 지식입니다.
+1. **정답의 명확성**: 스택의 LIFO, 큐의 FIFO처럼 객관적으로 확인 가능한 답이 있어 4지선다 문제에 적합합니다.
+2. **구현과의 연결성**: 퀴즈 목록은 <code>list</code>로 관리하고, 저장·복원 데이터는 <code>dict</code>와 JSON으로 다뤄 학습 주제와 실제 구현이 연결됩니다.
+3. **CS 기초 지식 가치**: 스택, 큐, 해시 테이블, 트리, 탐색 복잡도는 언어나 프레임워크가 바뀌어도 계속 활용되는 핵심 지식입니다.
 
-### 기본 제공 퀴즈 계획
+### 기본 제공 퀴즈
 
-구현 시 아래 5개 이상의 퀴즈를 기본 데이터로 포함합니다. 모든 문제는 선택지 4개와 정답 번호 1~4를 가집니다.
+<code>get_default_quizzes()</code>는 자료구조 기본 퀴즈 5개를 제공합니다. 각 퀴즈는 문제, 정확히 4개의 선택지, 1~4 범위의 정답 번호를 가지며 <code>Quiz</code> 생성자가 이 규칙을 검증합니다.
 
 | 번호 | 문제 | 선택지 | 정답 |
 | --- | --- | --- | --- |
-| 1 | 스택(Stack)의 자료 처리 방식은 무엇인가요? | 1. FIFO / 2. LIFO / 3. 무작위 접근 / 4. 우선순위 순 | 2 |
-| 2 | 큐(Queue)의 자료 처리 방식은 무엇인가요? | 1. FIFO / 2. LIFO / 3. 이진 탐색 / 4. 재귀 호출 | 1 |
-| 3 | 너비 우선 탐색(BFS)에서 주로 사용하는 자료구조는 무엇인가요? | 1. 스택 / 2. 큐 / 3. 힙 / 4. 트리 | 2 |
-| 4 | 정렬된 배열에서 이진 탐색의 시간 복잡도는 무엇인가요? | 1. O(1) / 2. O(log n) / 3. O(n) / 4. O(n²) | 2 |
-| 5 | 해시 테이블의 평균적인 키 탐색 시간 복잡도는 무엇인가요? | 1. O(n) / 2. O(log n) / 3. O(1) / 4. O(n²) | 3 |
+| 1 | 스택(Stack)의 주요 자료 처리 방식은 무엇인가요? | 1. FIFO (선입선출)<br>2. LIFO (후입선출)<br>3. LILO (후입후출)<br>4. 무작위 접근 | 2 |
+| 2 | 큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요? | 1. 먼저 들어간 데이터가 먼저 나온다 (FIFO)<br>2. 나중에 들어간 데이터가 먼저 나온다 (LIFO)<br>3. 항상 가장 큰 값이 먼저 나온다<br>4. 순서와 관계없이 무작위로 나온다 | 1 |
+| 3 | 해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요? | 1. 데이터를 오름차순으로 정렬한다<br>2. 키(Key)를 해시값 또는 인덱스로 변환한다<br>3. 데이터를 후입선출 구조로 저장한다<br>4. 트리의 높이를 자동으로 균형 있게 맞춘다 | 2 |
+| 4 | 이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요? | 1. 왼쪽 자식은 부모보다 크고, 오른쪽 자식은 작다<br>2. 왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다<br>3. 모든 자식 노드는 부모보다 무조건 크다<br>4. 노드의 크기와 관계없이 무작위로 배치한다 | 2 |
+| 5 | 정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요? | 1. O(1)<br>2. O(log n)<br>3. O(n)<br>4. O(n²) | 2 |
+
+![기본 제공 퀴즈 5개 검증 화면](docs/screenshots/quiz.png)
+
+> 기본 제공 퀴즈 5개가 각각 4개의 선택지와 1~4 정답 번호 규칙을 통과한 터미널 검증 기록입니다.
 
 ## 3. 실행 방법
 
@@ -47,17 +49,22 @@
 - Git
 - 외부 패키지 설치 없음 — Python 표준 라이브러리만 사용
 
-다음 명령으로 실행합니다.
+터미널에서 다음 명령을 순서대로 실행합니다. 포크한 저장소를 사용한다면 첫 번째 명령의 URL만 자신의 저장소 주소로 바꾸면 됩니다.
 
 ~~~bash
+# 저장소 복제
 git clone https://github.com/JmLeeRoom/codyssey_second_mission.git
+
+# 프로젝트 폴더로 이동
 cd codyssey_second_mission
+
+# 프로그램 실행
 python main.py
 ~~~
 
-macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리키지 않으면 <code>python3 main.py</code>를 사용합니다.
+macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리키지 않거나 명령을 찾을 수 없으면 <code>python3 main.py</code>를 사용합니다.
 
-> 현재 <code>main.py</code>, <code>quiz.py</code>, <code>storage.py</code>가 있으며, 메뉴 골격과 공통 입력 검증을 실행할 수 있습니다. 메뉴 1~4의 세부 기능은 이후 단계에서 구현합니다.
+> 현재 <code>main.py</code>, <code>quiz.py</code>, <code>storage.py</code>가 존재하며 메뉴 1~6과 JSON 저장·복구 기능이 구현되어 있어 위 명령으로 실행할 수 있습니다.
 
 ## 4. 기능 목록
 
@@ -65,12 +72,12 @@ macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리
 
 | 메뉴 | 기능 | 기대 동작 |
 | --- | --- | --- |
-| 1. 퀴즈 풀기 | 선택한 수의 저장된 퀴즈를 무작위로 출제합니다. | 1~현재 퀴즈 수 안에서 문제 수를 고른 뒤 정답·오답과 해설을 보여 주고, 선택한 문제 수 기준의 점수와 최고 점수 갱신 여부를 안내합니다. 퀴즈가 없으면 안내 후 메뉴로 돌아갑니다. |
-| 2. 퀴즈 추가 | 문제, 선택지 4개, 정답 번호와 선택적 힌트를 입력받습니다. | 빈 텍스트와 1~4 밖의 정답 번호를 다시 입력받고, 성공 시 즉시 <code>state.json</code>에 저장합니다. |
-| 3. 퀴즈 목록 | 등록된 모든 퀴즈를 조회합니다. | 번호와 문제를 표시하며, 퀴즈가 없으면 별도 안내를 표시합니다. |
-| 4. 점수 확인 | 최고 기록과 최근 게임 기록을 조회합니다. | 최고 기록은 별도로 표시하고, 완료한 게임의 날짜·문제 수·정답 수·점수를 최신순 최근 5회까지 표시합니다. |
+| 1. 퀴즈 풀기 | 선택한 수의 저장된 퀴즈를 무작위로 출제합니다. | 정답·오답과 정답 해설을 보여 주고, 획득 점수를 선택한 문제 수로 나눠 100점 만점으로 환산합니다. 최고 점수와 비교해 갱신하며, 퀴즈가 없으면 안내 후 메뉴로 돌아갑니다. |
+| 2. 퀴즈 추가 | 문제, 선택지 4개, 정답 번호와 선택적 힌트를 입력받습니다. | 공백 입력과 1~4 범위를 벗어난 정답을 재입력받아 검증하고, 성공 시 즉시 <code>state.json</code>에 저장합니다. |
+| 3. 퀴즈 목록 | 등록된 모든 퀴즈를 조회합니다. | 퀴즈 번호와 문제를 표시하며, 등록된 퀴즈가 없으면 빈 목록 안내를 표시합니다. |
+| 4. 점수 확인 | 최고 기록과 최근 게임 기록을 조회합니다. | 최고 점수·정답 수·전체 문제 수를 별도로 보여 주고, 아직 게임 기록이 없으면 미기록 상태를 안내합니다. 완료한 게임은 최신순 최근 5회까지 표시합니다. |
 | 5. 퀴즈 삭제 | 번호로 선택한 퀴즈를 삭제합니다. | 목록을 확인하고 <code>y/n</code> 재확인 후 즉시 저장합니다. |
-| 6. 종료 | 프로그램을 안전하게 마칩니다. | 현재 상태를 저장할 수 있는 범위에서 저장한 뒤 종료 메시지를 출력합니다. |
+| 6. 종료 | 프로그램을 안전하게 마칩니다. | 현재 상태를 저장한 뒤 종료 메시지를 출력하며, <code>Ctrl+C</code>·<code>EOF</code>에도 가능한 범위에서 저장을 시도합니다. |
 
 ### 점수 계산
 
@@ -105,57 +112,65 @@ macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리
 
 ## 5. 파일 구조와 클래스 설계
 
-### 현재 문서 파일
+### 프로젝트 디렉터리 구조
 
-현재 저장소에 있는 문서 자산은 다음과 같습니다.
-
-~~~text
-codyssey_second_mission/
-├── README.md
-└── docs/
-    ├── image.png
-    ├── learning_guide.md
-    ├── readme_requirements_list.md
-    └── reference.md
-~~~
-
-### 구현 목표 파일 구조
-
-아래 구조는 실행 프로그램을 완성할 때 추가할 목표 구조입니다. 아직 없는 파일을 이미 구현된 것처럼 의미하지 않습니다.
+현재 저장소의 파일 구조는 다음과 같습니다. <code>state.json</code>은 실행 중 생성·갱신되는 파일이며 Git 추적 대상이 아닙니다.
 
 ~~~text
 codyssey_second_mission/
-├── main.py                  # QuizGame 클래스, 메뉴 시작, 안전 종료 처리
-├── quiz.py                  # Quiz 클래스
-├── storage.py               # state.json 읽기·쓰기·복구 로직 (분리 시)
-├── state.json               # 실행 중 생성되는 퀴즈·점수 데이터
-├── .gitignore               # 동적 데이터와 개발 환경 파일 제외
-├── README.md
+├── .gitignore               # 동적 데이터·캐시·개발 환경 파일 제외
+├── main.py                  # 진입점, QuizGame, 메뉴와 안전 종료 처리
+├── quiz.py                  # Quiz 모델과 기본 퀴즈 데이터
+├── storage.py               # state.json 저장·로드·백업·복구
+├── state.json               # [동적 생성·Git 제외] 퀴즈·점수·히스토리 데이터
+├── README.md                 # 프로젝트 안내 문서
 └── docs/
-    ├── image.png            # 현재 보유한 개발 환경 설정 캡처
-    ├── learning_guide.md
-    ├── readme_requirements_list.md
-    ├── reference.md
-    └── screenshots/         # 메뉴·플레이·추가·점수·Git 증빙 캡처
+    ├── learning_checklist.md        # 학습·구현·제출 체크리스트
+    ├── learning_guide.md             # 단계별 학습 가이드
+    ├── readme_requirements_list.md   # README 작성 요구사항
+    ├── reference.md                  # 과제 참고 명세
+    ├── screenshots/                  # 터미널·Git 실행 증빙 이미지
+    └── study/                        # 단계별 학습 노트
+        ├── step0_dev_environment_git_init.md
+        ├── step1_quiz_model.md
+        ├── step2_quizgame_menu.md
+        ├── step3_play_quiz_branch.md
+        ├── step4_add_list_score.md
+        ├── step5_state_persistence.md
+        ├── step6_clone_pull.md
+        └── step7_bonus_features.md
 ~~~
 
-### 클래스 책임
+### 추가 예정 구조
 
-| 클래스 또는 모듈 | 책임 |
+<code>quiz_game.py</code>는 현재 존재하지 않습니다. 현재 <code>QuizGame</code> 클래스는 <code>main.py</code>에 있으며, 필요해질 때만 다음과 같이 별도 모듈로 분리할 수 있습니다.
+
+~~~text
+quiz_game.py  # [추가 예정] QuizGame의 게임 흐름과 입력 검증을 분리할 모듈
+~~~
+
+### 주요 파일과 클래스 역할
+
+| 파일 또는 클래스 | 구분 | 책임 |
 | --- | --- |
-| <code>Quiz</code> | 문제(<code>question</code>), 선택지 4개(<code>choices</code>), 정답 번호(<code>answer</code>), 선택적 힌트(<code>hint</code>)를 표현합니다. 문제 출력과 정답 확인을 담당하고, <code>to_dict()</code>·<code>from_dict()</code>로 JSON 데이터와 객체를 변환합니다. |
-| <code>QuizGame</code> | 퀴즈 목록, 최고 점수, 모든 게임의 점수 히스토리, 메뉴 루프를 관리합니다. 퀴즈 풀기·추가·목록 조회·삭제·점수 확인을 조합하고, <code>ask_int()</code>·<code>ask_text()</code>·<code>ask_yes_no()</code> 같은 공통 입력 검증을 제공합니다. |
-| <code>storage.py</code> (선택 분리) | 프로젝트 루트의 데이터 경로를 정하고 JSON 저장·불러오기, 백업과 손상 복구를 담당합니다. 이 역할은 <code>QuizGame</code>에 통합할 수도 있습니다. |
-| <code>main.py</code> | 게임을 생성·실행하고 메뉴 흐름을 담당합니다. <code>KeyboardInterrupt</code>·<code>EOFError</code> 발생 시 가능한 범위에서 저장한 뒤 안전하게 종료합니다. |
+| <code>main.py</code> | 실행·게임 흐름 | <code>main()</code>이 프로그램을 시작하고 <code>QuizGame</code>이 메뉴와 게임 흐름을 관리합니다. <code>KeyboardInterrupt</code>·<code>EOFError</code>가 발생하면 가능한 범위에서 저장한 뒤 안전하게 종료합니다. |
+| <code>QuizGame</code> (<code>main.py</code>) | 게임 제어 클래스 | 퀴즈 풀기·추가·목록·점수·삭제를 조합하고, 메뉴 루프와 <code>ask_int()</code>·<code>ask_text()</code>·<code>ask_yes_no()</code> 입력 검증을 담당합니다. |
+| <code>quiz.py</code> / <code>Quiz</code> | 퀴즈 모델 | 질문, 선택지 4개, 정답 번호, 선택적 힌트를 표현합니다. 문제 출력·정답 판정과 <code>to_dict()</code>·<code>from_dict()</code> JSON 변환을 담당합니다. |
+| <code>quiz_game.py</code> | 추가 예정 모듈 | 현재는 존재하지 않습니다. 나중에 <code>QuizGame</code>을 <code>main.py</code>에서 분리할 때 게임 흐름과 입력 검증을 맡길 수 있습니다. |
+| <code>storage.py</code> | 상태 저장 모듈 | <code>Path(__file__)</code> 기준으로 <code>state.json</code> 경로를 계산하고, JSON 저장·불러오기, <code>.bak</code> 백업, 손상 데이터의 기본값 복구를 담당합니다. |
+| <code>state.json</code> | 동적 데이터 | 퀴즈 목록, 최고 점수, 완료된 게임 히스토리를 UTF-8 JSON으로 저장합니다. 실행 중 바뀌므로 Git에서 제외합니다. |
+| <code>.gitignore</code> | Git 설정 | <code>state.json</code>, <code>state.json.bak</code>, <code>__pycache__</code>, 가상환경·에디터 설정 등 동적으로 생성되는 파일을 추적에서 제외합니다. |
+| <code>docs/</code> | 문서 디렉터리 | <code>learning_checklist.md</code>, 학습 가이드·노트, 요구사항, 참고 자료와 실행 증빙 이미지를 보관합니다. |
 
 ## 6. 데이터 파일: state.json
 
 ### 경로와 인코딩
 
-- 경로: <code>storage.py</code>와 같은 프로젝트 루트의 <code>state.json</code>
-- 경로 계산: <code>STATE_FILE = Path(__file__).resolve().parent / "state.json"</code> — 실행한 현재 디렉터리와 무관하게 같은 파일을 사용
-- 인코딩: UTF-8
-- JSON 저장: <code>ensure_ascii=False</code>를 사용하여 한글을 원문 그대로 저장
+- 역할: <code>state.json</code>은 퀴즈 목록, 최고 기록, 게임 히스토리를 보존하는 실행 데이터 파일입니다.
+- 경로 계산: <code>STATE_FILE = Path(__file__).resolve().parent / "state.json"</code>
+- 실행 위치 독립성: 위 경로는 <code>storage.py</code>가 있는 프로젝트 루트를 기준으로 계산하므로, 터미널의 현재 작업 디렉터리(CWD)가 달라도 항상 같은 <code>state.json</code>을 읽고 씁니다.
+- 인코딩: 파일을 <code>encoding="utf-8"</code>로 열어 운영체제 기본 인코딩 차이로 한글이 깨지는 문제를 막습니다.
+- JSON 저장: <code>ensure_ascii=False</code>를 사용하여 한글이 <code>\uXXXX</code> 이스케이프만으로 저장되지 않고 사람이 읽을 수 있는 원문으로 남게 합니다.
 - 객체 변환: 각 <code>Quiz</code> 객체의 <code>to_dict()</code> 결과만 저장하여 JSON 직렬화 오류를 방지
 - 가독성: <code>indent=2</code>로 사람이 검토하기 쉬운 형식으로 저장
 - 저장 실패: 권한·경로·디스크 등의 <code>OSError</code>를 안내한 뒤 프로그램을 계속 실행
@@ -166,11 +181,11 @@ codyssey_second_mission/
 {
   "quizzes": [
     {
-      "question": "스택(Stack)의 자료 처리 방식은?",
+      "question": "스택(Stack)의 주요 자료 처리 방식은 무엇인가요?",
       "choices": [
         "FIFO (선입선출)",
         "LIFO (후입선출)",
-        "우선순위 순",
+        "LILO (후입후출)",
         "무작위 접근"
       ],
       "answer": 2,
@@ -207,15 +222,16 @@ codyssey_second_mission/
 | <code>history[].correct</code> | 정수 | 해당 게임에서 맞힌 문제 수 |
 | <code>history[].score</code> | 정수 | 힌트 감점이 반영된 해당 게임의 최종 점수 |
 
+모든 <code>quizzes</code> 항목은 <code>question</code>, <code>choices</code>, <code>answer</code>를 가져야 합니다. <code>choices</code>는 정확히 4개의 문자열로 구성되고, <code>answer</code>는 사용자가 보는 번호와 같은 1~4 범위의 정수입니다.
+
 ### 첫 실행과 복구 동작
 
 현재 동작은 다음과 같습니다.
 
-1. 정상 파일은 퀴즈 객체, 최고 기록, 게임 히스토리로 복원한 뒤 퀴즈 개수와 최고 점수를 안내합니다. 이전 형식에 없는 점수 필드와 <code>history</code>는 각각 <code>0</code>, 빈 배열로 보완합니다.
-2. 첫 실행에 파일이 없으면 <code>FileNotFoundError</code>를 처리하고, 코드에 포함한 기본 퀴즈 5개 이상으로 <code>state.json</code>을 생성한 뒤 시작합니다.
-3. JSON 형식·UTF-8 인코딩·스키마가 잘못되면 <code>json.JSONDecodeError</code>, <code>UnicodeDecodeError</code>, <code>KeyError</code>, <code>TypeError</code>, <code>ValueError</code>를 처리합니다.
-4. 손상된 파일은 가능한 경우 <code>state.json.bak</code>으로 백업한 뒤 기본 퀴즈와 모든 최고 기록 값 <code>0</code>으로 안전하게 복구합니다. 백업 실패도 복구를 중단시키지 않습니다.
-5. 권한·읽기 오류 같은 <code>OSError</code>도 안내한 뒤 기본 데이터로 실행을 계속하므로 프로그램이 비정상 종료하지 않습니다.
+1. **정상 로드**: 퀴즈 객체, 최고 기록, 게임 히스토리를 복원한 뒤 퀴즈 개수와 최고 점수를 안내합니다. 이전 형식에 없는 점수 필드와 <code>history</code>는 각각 <code>0</code>, 빈 배열로 보완합니다.
+2. **첫 실행 — <code>FileNotFoundError</code>**: 파일이 없으면 오류로 끝내지 않고, 코드에 포함한 기본 퀴즈 5개 이상과 초기 점수로 <code>state.json</code>을 생성한 뒤 시작합니다.
+3. **손상·구조 오류**: <code>json.JSONDecodeError</code>, <code>UnicodeDecodeError</code>, <code>KeyError</code>, <code>TypeError</code>, <code>ValueError</code>가 발생하면 원인을 안내합니다. 가능한 경우 기존 파일을 <code>state.json.bak</code>으로 백업한 뒤 기본 퀴즈와 점수 <code>0</code>으로 복구하므로 트레이스백으로 종료하지 않습니다. 백업 자체가 실패해도 복구는 계속합니다.
+4. **읽기·권한 오류 — <code>OSError</code>**: 파일을 읽을 수 없으면 안내를 출력하고 메모리의 기본 데이터로 실행을 계속합니다.
 
 ### 저장·로드 호출 시점
 
@@ -225,7 +241,7 @@ codyssey_second_mission/
 
 ### Git 추적 방침
 
-권장 방침은 실행 중 계속 바뀌는 <code>state.json</code>과 <code>state.json.bak</code>를 <code>.gitignore</code>에 넣는 것입니다. 이렇게 하면 개인 퀴즈·점수 변경으로 Git 이력이 불필요하게 늘어나지 않으며, 파일이 없는 첫 실행 복구도 검증할 수 있습니다.
+실행 중 계속 바뀌는 <code>state.json</code>과 <code>state.json.bak</code>는 <code>.gitignore</code>에 넣습니다. 개인 퀴즈·점수·테스트 기록 때문에 Git 변경 이력이 불필요하게 늘어나는 것을 막고, 파일이 없는 첫 실행 및 손상 파일 복구를 깨끗한 상태에서 검증할 수 있기 때문입니다.
 
 현재 저장소는 이 방침을 적용해 <code>state.json</code>과 <code>state.json.bak</code>를 <code>.gitignore</code>로 추적 제외합니다.
 
@@ -233,22 +249,35 @@ codyssey_second_mission/
 
 ### 개발 환경 설정
 
-현재 보유한 Python·Git 설정 화면입니다.
+Python 3.12.3, Git 2.43.0, Git 전역 사용자 설정을 확인한 실제 터미널 화면입니다.
 
-![Python 및 Git 개발 환경 설정](docs/image.png)
+![Python 및 Git 개발 환경 설정](docs/screenshots/env_setup.png)
 
-### 추가로 촬영할 화면
+### 실제 퀴즈·Git 증빙
 
-실행 기능이 추가되면 아래 파일을 실제 실행 결과로 생성하고, README에 이미지 링크를 추가합니다. 존재하지 않는 이미지를 미리 링크하지 않아 깨진 링크가 생기지 않도록 했습니다.
+현재 존재하는 파일만 연결했습니다. <code>step4.png</code>는 삭제 기능을 추가하기 전의 1~5 메뉴 캡처이므로, 퀴즈 풀이·입력 검증·점수 출력의 **과거 실행 증빙**으로만 사용합니다. 현재 1~6 메뉴 전체 화면은 새로 촬영할 예정입니다.
 
-| 권장 파일 경로 | 증빙 내용 | 현재 상태 |
-| --- | --- | --- |
-| <code>docs/screenshots/env_setup.png</code> | Python 3.10+·Git 버전·Git 사용자 설정 | 기존 <code>docs/image.png</code>로 유사 증빙 보유 |
-| <code>docs/screenshots/menu.png</code> | 데이터 로딩 안내와 1~6 메인 메뉴 | 실행 코드 추가 후 촬영 필요 |
-| <code>docs/screenshots/play.png</code> | 문제 출제, 정오답 판정, 100점 환산, 최고 점수 갱신 | 실행 코드 추가 후 촬영 필요 |
-| <code>docs/screenshots/add_quiz.png</code> | 문제·선택지·정답 입력과 저장 성공 | 실행 코드 추가 후 촬영 필요 |
-| <code>docs/screenshots/score.png</code> | 최고 점수 또는 미기록 상태 | 실행 코드 추가 후 촬영 필요 |
-| <code>docs/screenshots/git_graph.png</code> | <code>git log --oneline --graph --all</code> 결과 | Git 이력 보강 후 촬영 필요 |
+![퀴즈 풀이, 잘못된 입력 검증, 결과와 최고 점수 화면](docs/screenshots/step4.png)
+
+![feat/play-quiz 브랜치 생성 화면](docs/screenshots/git_branch.png)
+
+![기능 브랜치 병합과 git log --oneline --graph --all 화면](docs/screenshots/step3.png)
+
+### 증빙 파일 매핑 현황
+
+존재하지 않는 <code>menu.png</code>, <code>play.png</code>, <code>add_quiz.png</code>, <code>score.png</code>, <code>git_graph.png</code>는 이미지로 미리 연결하지 않았습니다.
+
+| 분류 | 증빙 내용 | 실제 파일 | 상태 |
+| --- | --- | --- | --- |
+| 환경 | Python·Git 버전과 전역 Git 설정 | <code>docs/screenshots/env_setup.png</code> | 연결됨 |
+| 기본 퀴즈 모델 | 기본 퀴즈 5개, 선택지·정답 검증 | <code>docs/screenshots/quiz.png</code> | [퀴즈 주제 섹션](#2-퀴즈-주제와-선정-이유)에 연결됨 |
+| 퀴즈 풀이·점수 | 정답·오답, 범위 재입력, 결과, 최고 점수 | <code>docs/screenshots/step4.png</code> | 과거 실행 증빙 연결됨 |
+| 현재 1~6 메뉴 | 데이터 로드 안내와 삭제 기능을 포함한 메뉴 | 없음 | 촬영 후 연결 예정 |
+| 퀴즈 추가 | 문제·선택지 4개·정답 입력과 저장 성공 | 없음 | 촬영 후 연결 예정 |
+| 점수 확인 | 현재 최고 기록·최근 히스토리 또는 미기록 상태 | 없음 | 촬영 후 연결 예정 |
+| Git 브랜치·병합 | <code>feat/play-quiz</code> 브랜치와 <code>--no-ff</code> 병합 | <code>docs/screenshots/git_branch.png</code>, <code>docs/screenshots/step3.png</code> | 연결됨 |
+| Git 커밋·push | 커밋과 원격 push 이력 | <code>docs/screenshots/step1_git.png</code> | 보유 |
+| GitHub 체크포인트 | 원격 저장소의 초기 체크포인트 화면 | <code>docs/screenshots/git_setting.png</code>, <code>docs/screenshots/git_check_point.png</code> | 보유 |
 
 ## 8. Git 워크플로우 검증 계획
 

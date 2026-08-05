@@ -742,59 +742,59 @@ jmlee@swhs-lab:~/Project/second-project$ python3 main.py
 
 ### 9-1. 프로젝트 개요와 주제
 
-- [ ] README 첫 부분에 Python 3.10+ 터미널 4지선다 퀴즈 게임임을 2~3줄로 설명한다.
-- [ ] Python 기본 문법, OOP, JSON 영속성, Git 워크플로우를 학습 목표로 적는다.
-- [ ] 퀴즈 주제가 **자료구조(Data Structure)**임을 명시한다.
-- [ ] 정답의 명확성, `list`/`dict`와의 구현상 연결, CS 기초 지식 가치의 세 가지 선정 이유를 적는다.
-- [ ] 기본 제공 퀴즈 5개 이상이 문제·선택지 4개·정답 번호를 가진다는 점을 적는다.
+- [x] README 첫 부분에 Python 3.10+ 터미널 4지선다 퀴즈 게임임을 2~3줄로 설명한다.
+- [x] Python 기본 문법, OOP, JSON 영속성, Git 워크플로우를 학습 목표로 적는다.
+- [x] 퀴즈 주제가 **자료구조(Data Structure)**임을 명시한다.
+- [x] 정답의 명확성, `list`/`dict`와의 구현상 연결, CS 기초 지식 가치의 세 가지 선정 이유를 적는다.
+- [x] 기본 제공 퀴즈 5개 이상이 문제·선택지 4개·정답 번호를 가진다는 점을 적는다.
 
 ### 9-2. 실행 방법과 기능 목록
 
-- [ ] 요구 환경으로 Python 3.10 이상, Git, 외부 라이브러리 불필요를 적는다.
-- [ ] README의 저장소 URL에 맞는 `git clone https://github.com/JmLeeRoom/codyssey_second_mission.git` 명령을 적거나, 포크한 경우 자신의 URL로 바꾼다.
-- [ ] `cd codyssey_second_mission` 또는 실제 저장소 디렉터리로 이동하는 명령을 적는다.
-- [ ] `python main.py` 실행 명령을 적는다.
-- [ ] 일부 환경에서는 `python3 main.py`를 사용해야 함을 안내한다.
-- [ ] 현재 `main.py`가 없을 때는 실행 명령을 성공한 것처럼 주장하지 않고 구현 완료 후 검증 대상임을 표시한다.
-- [ ] 메뉴 1 “퀴즈 풀기”의 출제·정오답·100점 환산·최고 점수 비교·빈 목록 처리를 설명한다.
-- [ ] 메뉴 2 “퀴즈 추가”의 문제·선택지 4개·정답 입력·즉시 저장·유효성 검증을 설명한다.
-- [ ] 메뉴 3 “퀴즈 목록”의 번호·문제 표시와 빈 목록 처리를 설명한다.
-- [ ] 메뉴 4 “점수 확인”의 최고 기록 표시와 미기록 상태 처리를 설명한다.
-- [ ] 메뉴 5 “퀴즈 삭제”의 번호 선택·재확인·즉시 저장을 설명한다.
-- [ ] 메뉴 6 “종료”의 가능한 범위 저장과 안전 종료를 설명한다.
+- [x] 요구 환경으로 Python 3.10 이상, Git, 외부 라이브러리 불필요를 적는다.
+- [x] README의 저장소 URL에 맞는 `git clone https://github.com/JmLeeRoom/codyssey_second_mission.git` 명령을 적고, 포크한 경우 자신의 URL로 바꾸도록 안내한다.
+- [x] `cd codyssey_second_mission` 또는 실제 저장소 디렉터리로 이동하는 명령을 적는다.
+- [x] `python main.py` 실행 명령을 적는다.
+- [x] 일부 환경에서는 `python3 main.py`를 사용해야 함을 안내한다.
+- [x] 현재 `main.py`가 실제로 존재하고 실행 기능이 구현된 상태임을 사실대로 안내한다.
+- [x] 메뉴 1 “퀴즈 풀기”의 출제·정오답·100점 환산·최고 점수 비교·빈 목록 처리를 설명한다.
+- [x] 메뉴 2 “퀴즈 추가”의 문제·선택지 4개·정답 입력·즉시 저장·유효성 검증을 설명한다.
+- [x] 메뉴 3 “퀴즈 목록”의 번호·문제 표시와 빈 목록 처리를 설명한다.
+- [x] 메뉴 4 “점수 확인”의 최고 기록 표시와 미기록 상태 처리를 설명한다.
+- [x] 메뉴 5 “퀴즈 삭제”의 번호 선택·재확인·즉시 저장을 설명한다.
+- [x] 메뉴 6 “종료”의 가능한 범위 저장과 안전 종료를 설명한다.
 
 ### 9-3. 파일 구조와 클래스 설계
 
-- [ ] 프로젝트 디렉터리 트리를 Markdown 코드 블록으로 표시한다.
-- [ ] `main.py`의 진입점·안전 종료 역할을 설명한다.
-- [ ] `quiz.py`의 `Quiz` 모델 역할을 설명한다.
-- [ ] `quiz_game.py`의 `QuizGame` 게임 흐름·입력 검증 역할을 설명한다.
-- [ ] 선택적 `storage.py`의 상태 저장·불러오기·복구 역할을 설명한다.
-- [ ] `state.json`, `.gitignore`, `docs/`의 역할을 설명한다.
-- [ ] 아직 없는 파일을 현재 존재하는 파일처럼 표시하지 않고 “구현 목표” 또는 “추가 예정”으로 구분한다.
-- [ ] 현재 문서 목록에 `docs/learning_checklist.md`를 포함할지 실제 파일 구조와 맞춰 확인한다.
+- [x] 프로젝트 디렉터리 트리를 Markdown 코드 블록으로 표시한다.
+- [x] `main.py`의 진입점·안전 종료 역할을 설명한다.
+- [x] `quiz.py`의 `Quiz` 모델 역할을 설명한다.
+- [x] 현재 `QuizGame`이 `main.py`에 있고, 없는 `quiz_game.py`는 추가 예정 모듈로 구분해 게임 흐름·입력 검증 역할을 설명한다.
+- [x] `storage.py`의 상태 저장·불러오기·복구 역할을 설명한다.
+- [x] `state.json`, `.gitignore`, `docs/`의 역할을 설명한다.
+- [x] 아직 없는 파일을 현재 존재하는 파일처럼 표시하지 않고 “추가 예정”으로 구분한다.
+- [x] 현재 문서 목록에 `docs/learning_checklist.md`를 실제 파일 구조와 맞춰 포함한다.
 
 ### 9-4. state.json 문서화
 
-- [ ] 데이터 경로로 `Path(__file__).resolve().parent / "state.json"`을 사용해 실행 위치와 무관함을 설명한다.
-- [ ] UTF-8, `ensure_ascii=False`, `state.json`의 역할을 설명한다.
-- [ ] `quizzes`, `question`, `choices`, `answer`, 선택적 `hint`, `best_score`, `best_correct`, `best_total`, `history`의 JSON 스키마 예시를 제공한다.
-- [ ] `answer`가 1~4 번호이고 `choices`가 4개라는 규칙을 설명한다.
-- [ ] 첫 실행의 `FileNotFoundError`에서는 기본 퀴즈로 시작한다고 설명한다.
-- [ ] `json.JSONDecodeError`, `KeyError`, `ValueError`, `TypeError`, `OSError` 등 손상·읽기 실패를 안내하고 복구한다고 설명한다.
-- [ ] 손상 파일을 `state.json.bak`으로 백업한 뒤 기본 데이터로 복구하는 동작을 설명한다.
-- [ ] `state.json`과 `state.json.bak`을 `.gitignore`에 넣는 이유를 설명한다.
+- [x] 데이터 경로로 `Path(__file__).resolve().parent / "state.json"`을 사용해 실행 위치와 무관함을 설명한다.
+- [x] UTF-8, `ensure_ascii=False`, `state.json`의 역할을 설명한다.
+- [x] `quizzes`, `question`, `choices`, `answer`, 선택적 `hint`, `best_score`, `best_correct`, `best_total`, `history`의 JSON 스키마 예시를 제공한다.
+- [x] `answer`가 1~4 번호이고 `choices`가 4개라는 규칙을 설명한다.
+- [x] 첫 실행의 `FileNotFoundError`에서는 기본 퀴즈로 시작한다고 설명한다.
+- [x] `json.JSONDecodeError`, `KeyError`, `ValueError`, `TypeError`, `OSError` 등 손상·읽기 실패를 안내하고 복구한다고 설명한다.
+- [x] 손상 파일을 `state.json.bak`으로 백업한 뒤 기본 데이터로 복구하는 동작을 설명한다.
+- [x] `state.json`과 `state.json.bak`을 `.gitignore`에 넣는 이유를 설명한다.
 
 ### 9-5. README 이미지와 Git 증빙
 
-- [ ] Python·Git 버전과 전역 Git 설정을 보여 주는 환경 이미지를 README에서 정상 표시한다.
-- [ ] `docs/screenshots/menu.png`으로 데이터 로딩 안내와 1~6 메뉴를 증빙한다.
-- [ ] `docs/screenshots/play.png`으로 문제 출제, 정오답, 결과, 최고 점수 갱신을 증빙한다.
-- [ ] `docs/screenshots/add_quiz.png`으로 문제·선택지·정답 입력과 저장 성공을 증빙한다.
-- [ ] `docs/screenshots/score.png`으로 최고 기록 또는 미기록 상태를 증빙한다.
-- [ ] `docs/screenshots/git_graph.png`으로 `git log --oneline --graph --all` 결과를 증빙한다.
-- [ ] README가 참조하는 이미지 파일이 실제로 존재하고 GitHub 웹에서 깨지지 않는지 확인한다.
-- [ ] 현재 존재하지 않는 런타임 스크린샷 경로를 미리 이미지로 연결해 깨진 링크를 만들지 않는다.
+- [x] Python·Git 버전과 전역 Git 설정을 보여 주는 `docs/screenshots/env_setup.png` 이미지를 README에서 정상 표시한다.
+- [ ] 현재 1~6 메뉴와 데이터 로드 안내를 보여 주는 전용 스크린샷을 촬영해 연결한다.
+- [x] `docs/screenshots/step4.png`으로 문제 출제, 정오답, 결과, 최고 점수의 과거 실행 증빙을 연결한다.
+- [ ] 퀴즈 추가의 문제·선택지 4개·정답 입력과 저장 성공을 보여 주는 전용 스크린샷을 촬영해 연결한다.
+- [ ] 현재 최고 기록·최근 히스토리 또는 미기록 상태를 보여 주는 전용 스크린샷을 촬영해 연결한다.
+- [x] `docs/screenshots/step3.png`으로 `git log --oneline --graph --all` 결과와 병합 이력을 증빙한다.
+- [ ] README가 참조하는 이미지 파일이 실제로 존재하는지 확인하고, push 후 GitHub 웹에서 깨지지 않는지 확인한다. (로컬 파일 존재 확인 완료)
+- [x] 현재 존재하지 않는 런타임 스크린샷 경로를 미리 이미지로 연결해 깨진 링크를 만들지 않는다.
 
 ### 9-6. README 문서 Git 체크포인트
 
