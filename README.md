@@ -255,3 +255,7 @@ Chore: Git ignore 규칙 추가
 - [README 작성 요구사항](docs/readme_requirements_list.md)
 - [학습 가이드](docs/learning_guide.md)
 - [원본 과제 명세](docs/reference.md)
+
+## 학습 회고
+
+`Path(__file__).resolve().parent`로 저장 경로를 계산해 실행 위치가 달라도 같은 `state.json`을 사용하도록 구현하며 상대 경로의 위험성을 배웠습니다. 또한 JSON 문법 오류나 필수 키 누락 시 파일을 `.bak`으로 백업하고 기본 데이터로 복구하는 흐름을 만들며, 예외 처리와 데이터 복구의 중요성을 경험했습니다.
