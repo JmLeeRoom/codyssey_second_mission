@@ -163,49 +163,49 @@ git version 2.43.0
 
 ### 3-1. QuizGame의 책임과 초기 상태
 
-- [ ] `QuizGame` 클래스를 정의해 게임 전체 흐름을 관리한다.
-- [ ] `__init__(self)`에서 `self.quizzes`를 기본 퀴즈 또는 불러온 퀴즈 목록으로 초기화한다.
-- [ ] `__init__(self)`에서 `self.best_score`를 초기화하거나 저장 파일에서 불러온다.
-- [ ] 최고 기록의 정답 수와 전체 문제 수도 보여 줄 계획이면 `best_correct`·`best_total`도 초기화한다.
-- [ ] 메뉴 표시, 퀴즈 풀기, 추가, 목록, 점수 확인, 저장, 불러오기를 별도 메서드로 분리한다.
-- [ ] 모든 코드를 하나의 함수에 몰아넣지 않는다.
+- [x] `QuizGame` 클래스를 정의해 게임 전체 흐름을 관리한다.
+- [x] `__init__(self)`에서 `self.quizzes`를 기본 퀴즈 또는 불러온 퀴즈 목록으로 초기화한다.
+- [x] `__init__(self)`에서 `self.best_score`를 초기화하거나 저장 파일에서 불러온다.
+- [x] 최고 기록의 정답 수와 전체 문제 수도 보여 줄 계획이면 `best_correct`·`best_total`도 초기화한다.
+- [x] 메뉴 표시, 퀴즈 풀기, 추가, 목록, 점수 확인, 저장, 불러오기를 별도 메서드로 분리한다.
+- [x] 모든 코드를 하나의 함수에 몰아넣지 않는다.
 
 ### 3-2. ask_int: 숫자 입력 재시도 규칙
 
-- [ ] `ask_int(self, prompt, low, high)`를 구현한다.
-- [ ] `input(prompt).strip()`으로 앞뒤 공백을 제거한다.
-- [ ] `"  2  "` 입력이 숫자 2로 처리되는지 확인한다.
-- [ ] 공백 제거 뒤 빈 문자열이면 안내 문구를 출력하고 같은 입력 단계로 돌아간다.
-- [ ] `int(raw)` 변환은 `try/except ValueError`로 감싼다.
-- [ ] 유효한 숫자와 범위가 확인되면 `ask_int()`가 `int` 값을 `return`하는지 확인한다.
-- [ ] `abc` 같은 문자 입력에서 `ValueError`를 안내하고 재입력받는다.
-- [ ] `1.5` 같은 소수 입력에서 `ValueError`를 안내하고 재입력받는다.
-- [ ] 숫자가 `low` 미만이면 허용 범위를 안내하고 재입력받는다.
-- [ ] 숫자가 `high` 초과면 허용 범위를 안내하고 재입력받는다.
-- [ ] 메뉴에서 0, -1, 9를 입력했을 때 프로그램이 종료·오작동하지 않고 재입력으로 돌아가는지 확인한다.
-- [ ] 정답 입력에서 0 또는 5를 입력했을 때 1~4 범위를 안내하고 재입력받는지 확인한다.
-- [ ] `except:` 또는 `except Exception:`으로 `KeyboardInterrupt`·`EOFError`까지 무심코 삼키지 않는다.
-- [ ] `KeyboardInterrupt`와 `EOFError`는 상위 `main()`의 안전 종료 처리로 전달되게 한다.
+- [x] `ask_int(self, prompt, low, high)`를 구현한다.
+- [x] `input(prompt).strip()`으로 앞뒤 공백을 제거한다.
+- [x] `"  2  "` 입력이 숫자 2로 처리되는지 확인한다.
+- [x] 공백 제거 뒤 빈 문자열이면 안내 문구를 출력하고 같은 입력 단계로 돌아간다.
+- [x] `int(raw)` 변환은 `try/except ValueError`로 감싼다.
+- [x] 유효한 숫자와 범위가 확인되면 `ask_int()`가 `int` 값을 `return`하는지 확인한다.
+- [x] `abc` 같은 문자 입력에서 `ValueError`를 안내하고 재입력받는다.
+- [x] `1.5` 같은 소수 입력에서 `ValueError`를 안내하고 재입력받는다.
+- [x] 숫자가 `low` 미만이면 허용 범위를 안내하고 재입력받는다.
+- [x] 숫자가 `high` 초과면 허용 범위를 안내하고 재입력받는다.
+- [x] 메뉴에서 0, -1, 9를 입력했을 때 프로그램이 종료·오작동하지 않고 재입력으로 돌아가는지 확인한다.
+- [x] 정답 입력에서 0 또는 5를 입력했을 때 1~4 범위를 안내하고 재입력받는지 확인한다.
+- [x] `except:` 또는 `except Exception:`으로 `KeyboardInterrupt`·`EOFError`까지 무심코 삼키지 않는다.
+- [x] `KeyboardInterrupt`와 `EOFError`는 상위 `main()`의 안전 종료 처리로 전달되게 한다.
 
 ### 3-3. ask_text, 메뉴, 실행 루프
 
-- [ ] `ask_text(self, prompt)`를 구현한다.
-- [ ] `ask_text()`가 `raw = input(prompt).strip()`으로 공백을 제거하고, 빈 문자열이면 안내 후 `continue`, 유효한 문자열이면 `return raw` 하는지 확인한다.
-- [ ] `show_menu(self)`가 1. 퀴즈 풀기, 2. 퀴즈 추가, 3. 퀴즈 목록, 4. 점수 확인, 5. 종료를 모두 출력한다.
-- [ ] 메뉴에 자료구조 퀴즈 게임임을 알 수 있는 제목을 출력한다.
-- [ ] `run(self)`에 `while` 루프를 두어 종료 전까지 메뉴를 반복한다.
-- [ ] 메뉴 선택에 `ask_int("선택: ", 1, 5)` 또는 동등한 범위 검증을 사용한다.
-- [ ] 선택 1이 `play_quiz()`, 2가 `add_quiz()`, 3이 `show_quiz_list()`, 4가 `show_score()`로 분기하는지 확인한다.
-- [ ] 선택 5에서 현재 상태를 저장할 수 있는 범위에서 저장하고 루프를 끝내는지 확인한다.
+- [x] `ask_text(self, prompt)`를 구현한다.
+- [x] `ask_text()`가 `raw = input(prompt).strip()`으로 공백을 제거하고, 빈 문자열이면 안내 후 `continue`, 유효한 문자열이면 `return raw` 하는지 확인한다.
+- [x] `show_menu(self)`가 1. 퀴즈 풀기, 2. 퀴즈 추가, 3. 퀴즈 목록, 4. 점수 확인, 5. 종료를 모두 출력한다.
+- [x] 메뉴에 자료구조 퀴즈 게임임을 알 수 있는 제목을 출력한다.
+- [x] `run(self)`에 `while` 루프를 두어 종료 전까지 메뉴를 반복한다.
+- [x] 메뉴 선택에 `ask_int("선택: ", 1, 5)` 또는 동등한 범위 검증을 사용한다.
+- [x] 선택 1이 `play_quiz()`, 2가 `add_quiz()`, 3이 `show_quiz_list()`, 4가 `show_score()`로 분기하는지 확인한다.
+- [x] 선택 5에서 현재 상태를 저장할 수 있는 범위에서 저장하고 루프를 끝내는지 확인한다.
 
 ### 3-4. Ctrl+C·EOF 안전 종료
 
-- [ ] 최상위 `main()` 또는 동등한 진입점에서 `KeyboardInterrupt`를 처리한다.
-- [ ] Ctrl+C가 발생하면 Python Traceback 대신 안내 메시지를 출력한다.
-- [ ] Ctrl+C 발생 시 가능한 범위에서 `save_state()`를 호출한 뒤 종료한다.
-- [ ] 최상위에서 `EOFError`를 처리한다.
-- [ ] Ctrl+D, 닫힌 표준 입력, 파이프 입력에서 무한 재입력 루프가 생기지 않는지 확인한다.
-- [ ] `echo "" | python main.py` 또는 Python 3에 맞는 명령으로 EOF 종료를 직접 시험한다.
+- [x] 최상위 `main()` 또는 동등한 진입점에서 `KeyboardInterrupt`를 처리한다.
+- [x] Ctrl+C가 발생하면 Python Traceback 대신 안내 메시지를 출력한다.
+- [x] Ctrl+C 발생 시 가능한 범위에서 `save_state()`를 호출한 뒤 종료한다.
+- [x] 최상위에서 `EOFError`를 처리한다.
+- [x] Ctrl+D, 닫힌 표준 입력, 파이프 입력에서 무한 재입력 루프가 생기지 않는지 확인한다.
+- [x] `echo "" | python main.py` 또는 Python 3에 맞는 명령으로 EOF 종료를 직접 시험한다.
 
 ### 3-5. 입력 예외 9종 실습과 Git 체크포인트
 

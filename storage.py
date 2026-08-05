@@ -75,3 +75,33 @@ def load_state(state_file: Path | str = STATE_FILE) -> tuple[list[Quiz], int]:
         print(f"⚠️ 데이터 파일을 읽을 수 없습니다: {error}")
         print("🔧 기본 퀴즈 데이터로 복구합니다.")
         return _default_state()
+
+
+def save_state(
+    quizzes: list[Quiz], best_score: int, state_file: Path | str = STATE_FILE
+) -> bool:
+    """퀴즈 목록과 최고 점수를 UTF-8 JSON 파일로 저장한다.
+
+    저장 실패는 게임 종료나 메뉴 흐름을 막지 않도록 안내 후 ``False``를
+    반환한다. 성공하면 ``True``를 반환한다.
+    """
+    if isinstance(best_score, bool) or not isinstance(best_score, int):
+        raise TypeError("최고 점수는 정수여야 합니다.")
+    if best_score < 0:
+        raise ValueError("최고 점수는 0 이상이어야 합니다.")
+    if not all(isinstance(quiz, Quiz) for quiz in quizzes):
+        raise TypeError("저장할 모든 항목은 Quiz 객체여야 합니다.")
+
+    data = {
+        "quizzes": [quiz.to_dict() for quiz in quizzes],
+        "best_score": best_score,
+    }
+
+    try:
+        with Path(state_file).open("w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
+    except OSError as error:
+        print(f"⚠️ 데이터 저장에 실패했습니다: {error}")
+        return False
+
+    return True

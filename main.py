@@ -1,166 +1,134 @@
-"""퀴즈 한 문제를 표현하는 도메인 모델."""
+"""자료구조 터미널 퀴즈 게임의 실행 흐름을 관리한다."""
 
 from __future__ import annotations
 
-from typing import Any
+from quiz import Quiz, get_default_quizzes
+from storage import load_state as load_quiz_state
+from storage import save_state as save_quiz_state
 
 
-class Quiz:
-    """문제, 선택지 4개, 1-based 정답 번호를 관리하는 퀴즈 모델."""
+class QuizGame:
+    """메뉴, 게임 데이터, 각 기능 호출의 흐름을 관리하는 클래스."""
 
-    def __init__(self, question: str, choices: list[str], answer: int) -> None:
-        """유효한 퀴즈 데이터를 저장한다.
+    def __init__(self) -> None:
+        self.quizzes: list[Quiz] = []
+        self.best_score: int = 0
+        self.best_correct: int = 0
+        self.best_total: int = 0
 
-        ``answer``는 사용자가 보는 번호와 동일하게 1~4로 저장한다.
-        리스트 인덱스로 선택지를 조회할 때만 ``answer - 1``을 사용한다.
+        self.load_state()
+
+    def show_menu(self) -> None:
+        """자료구조 퀴즈 게임의 1~5번 메뉴를 출력한다."""
+        print("\n" + "=" * 40)
+        print("      🎯 자료구조 퀴즈 게임 🎯")
+        print("=" * 40)
+        print("1. 퀴즈 풀기")
+        print("2. 퀴즈 추가")
+        print("3. 퀴즈 목록")
+        print("4. 점수 확인")
+        print("5. 종료")
+        print("=" * 40)
+
+    def run(self) -> None:
+        """메뉴를 반복 표시하고 선택한 기능으로 분기한다."""
+        while True:
+            self.show_menu()
+            choice = self.ask_int("선택: ", 1, 5)
+
+            if choice == 1:
+                self.play_quiz()
+            elif choice == 2:
+                self.add_quiz()
+            elif choice == 3:
+                self.show_quiz_list()
+            elif choice == 4:
+                self.show_score()
+            else:
+                self.save_state()
+                print("\n👋 프로그램을 종료합니다. 이용해 주셔서 감사합니다!")
+                return
+
+    def ask_int(self, prompt: str, low: int, high: int) -> int:
+        """``low``~``high`` 범위의 정수를 입력받을 때까지 재시도한다.
+
+        ``ValueError``만 처리하여 ``KeyboardInterrupt``와 ``EOFError``는
+        상위 실행 흐름에서 안전하게 처리할 수 있도록 그대로 전달한다.
         """
-        if not isinstance(question, str):
-            raise TypeError("문제는 문자열이어야 합니다.")
-        if not isinstance(choices, list):
-            raise TypeError("선택지는 문자열 목록이어야 합니다.")
-        if len(choices) != 4:
-            raise ValueError("선택지는 정확히 4개여야 합니다.")
-        if not all(isinstance(choice, str) for choice in choices):
-            raise TypeError("모든 선택지는 문자열이어야 합니다.")
-        if isinstance(answer, bool) or not isinstance(answer, int):
-            raise TypeError("정답 번호는 정수여야 합니다.")
-        if not 1 <= answer <= 4:
-            raise ValueError("정답 번호는 1~4 사이여야 합니다.")
+        while True:
+            raw = input(prompt).strip()
+            if not raw:
+                print("⚠️ 입력이 비어 있습니다. 다시 입력하세요.")
+                continue
 
-        self.question = question
-        self.choices = list(choices)
-        self.answer = answer
+            try:
+                value = int(raw)
+            except ValueError:
+                print("⚠️ 숫자를 입력하세요.")
+                continue
 
-    def display(self, number: int | None = None) -> None:
-        """문제와 선택지 4개를 사용자에게 출력한다."""
-        if number is not None:
-            print(f"[문제 {number}] {self.question}")
-        else:
-            print(self.question)
+            if low <= value <= high:
+                return value
 
-        for index, choice in enumerate(self.choices, start=1):
-            print(f"  {index}. {choice}")
+            print(f"⚠️ {low}~{high} 사이의 숫자를 입력하세요.")
 
-    def is_correct(self, user_answer: int) -> bool:
-        """사용자 입력이 1-based 정답 번호와 일치하는지 반환한다."""
-        return (
-            isinstance(user_answer, int)
-            and not isinstance(user_answer, bool)
-            and user_answer == self.answer
-        )
+    def ask_text(self, prompt: str) -> str:
+        """비어 있지 않은 문자열을 입력받을 때까지 재시도한다."""
+        while True:
+            text = input(prompt).strip()
+            if text:
+                return text
+            print("⚠️ 입력이 비어 있습니다. 내용을 입력하세요.")
 
-    def get_correct_text(self) -> str:
-        """정답 선택지 텍스트를 안전하게 반환한다."""
-        return self.choices[self.answer - 1]
+    def play_quiz(self) -> None:
+        """1번 메뉴: 퀴즈 풀기 기능의 자리다."""
+        print("\n🚧 [퀴즈 풀기] 기능 준비 중입니다.")
 
-    def to_dict(self) -> dict[str, Any]:
-        """JSON으로 저장할 수 있는 딕셔너리로 변환한다."""
-        return {
-            "question": self.question,
-            "choices": list(self.choices),
-            "answer": self.answer,
-        }
+    def add_quiz(self) -> None:
+        """2번 메뉴: 퀴즈 추가 기능의 자리다."""
+        print("\n🚧 [퀴즈 추가] 기능 준비 중입니다.")
 
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Quiz":
-        """JSON에서 읽은 딕셔너리로부터 Quiz 객체를 복원한다."""
-        if not isinstance(data, dict):
-            raise TypeError("퀴즈 데이터는 딕셔너리여야 합니다.")
+    def show_quiz_list(self) -> None:
+        """3번 메뉴: 퀴즈 목록 기능의 자리다."""
+        print("\n🚧 [퀴즈 목록] 기능 준비 중입니다.")
 
-        return cls(
-            question=data["question"],
-            choices=data["choices"],
-            answer=data["answer"],
-        )
+    def show_score(self) -> None:
+        """4번 메뉴: 점수 확인 기능의 자리다."""
+        print("\n🚧 [점수 확인] 기능 준비 중입니다.")
+
+    def save_state(self) -> bool:
+        """현재 퀴즈 목록과 최고 점수를 JSON 파일에 저장한다."""
+        return save_quiz_state(self.quizzes, self.best_score)
+
+    def load_state(self) -> None:
+        """저장된 데이터를 불러오고, 실패하면 기본 퀴즈로 복구한다."""
+        self.quizzes, self.best_score = load_quiz_state()
 
 
-def get_default_quizzes() -> list[Quiz]:
-    """기본 자료구조 퀴즈 5개를 새 목록으로 반환한다.
+def _save_before_exit(game: QuizGame) -> None:
+    """예상하지 못한 종료 전에 가능한 범위에서 현재 상태를 저장한다."""
+    if game.save_state():
+        print("💾 현재 데이터를 저장하고 종료합니다.")
+    else:
+        print("⚠️ 데이터를 저장하지 못했지만 프로그램을 종료합니다.")
 
-    이 함수는 ``state.json``이 없거나 손상되어 ``load_state()``가
-    복구해야 할 때 사용하는 기본 데이터의 단일 출처다.
-    """
-    return [
-        Quiz(
-            "스택(Stack)의 주요 자료 처리 방식은 무엇인가요?",
-            [
-                "FIFO (선입선출)",
-                "LIFO (후입선출)",
-                "LILO (후입후출)",
-                "무작위 접근",
-            ],
-            2,
-        ),
-        Quiz(
-            "큐(Queue)의 주요 특징으로 옳은 것은 무엇인가요?",
-            [
-                "먼저 들어간 데이터가 먼저 나온다 (FIFO)",
-                "나중에 들어간 데이터가 먼저 나온다 (LIFO)",
-                "항상 가장 큰 값이 먼저 나온다",
-                "순서와 관계없이 무작위로 나온다",
-            ],
-            1,
-        ),
-        Quiz(
-            "해시 테이블(Hash Table)에서 해시 함수(Hash Function)의 핵심 역할은 무엇인가요?",
-            [
-                "데이터를 오름차순으로 정렬한다",
-                "키(Key)를 해시값 또는 인덱스로 변환한다",
-                "데이터를 후입선출 구조로 저장한다",
-                "트리의 높이를 자동으로 균형 있게 맞춘다",
-            ],
-            2,
-        ),
-        Quiz(
-            "이진 탐색 트리(BST)의 자식 노드 배치 규칙으로 옳은 것은 무엇인가요?",
-            [
-                "왼쪽 자식은 부모보다 크고, 오른쪽 자식은 작다",
-                "왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다",
-                "모든 자식 노드는 부모보다 무조건 크다",
-                "노드의 크기와 관계없이 무작위로 배치한다",
-            ],
-            2,
-        ),
-        Quiz(
-            "정렬된 N개의 배열에서 이진 탐색(Binary Search)의 시간 복잡도는 무엇인가요?",
-            [
-                "O(1)",
-                "O(log n)",
-                "O(n)",
-                "O(n²)",
-            ],
-            2,
-        ),
-    ]
+
+def main() -> None:
+    """터미널 퀴즈 게임을 실행하고 종료 입력을 안전하게 처리한다."""
+    game: QuizGame | None = None
+
+    try:
+        game = QuizGame()
+        game.run()
+    except KeyboardInterrupt:
+        print("\n⚠️ 사용자에 의해 프로그램이 중단되었습니다. (Ctrl+C)")
+        if game is not None:
+            _save_before_exit(game)
+    except EOFError:
+        print("\n⚠️ 입력 스트림이 종료되었습니다. (EOF)")
+        if game is not None:
+            _save_before_exit(game)
 
 
 if __name__ == "__main__":
-    quizzes = get_default_quizzes()
-    assert len(quizzes) >= 5
-    print(f"✅ 기본 퀴즈 개수: {len(quizzes)}개 (최소 5개 이상)")
-
-    expected_answers = (2, 1, 2, 2, 2)
-    expected_correct_texts = (
-        "LIFO (후입선출)",
-        "먼저 들어간 데이터가 먼저 나온다 (FIFO)",
-        "키(Key)를 해시값 또는 인덱스로 변환한다",
-        "왼쪽 자식은 부모보다 작고, 오른쪽 자식은 크다",
-        "O(log n)",
-    )
-
-    for number, (quiz, expected_answer, expected_text) in enumerate(
-        zip(quizzes, expected_answers, expected_correct_texts, strict=True),
-        start=1,
-    ):
-        quiz.display(number)
-        assert len(quiz.choices) == 4
-        assert quiz.answer == expected_answer
-        assert quiz.get_correct_text() == expected_text
-        assert quiz.is_correct(quiz.answer)
-        assert not quiz.is_correct(0)
-
-        restored_quiz = Quiz.from_dict(quiz.to_dict())
-        assert restored_quiz.to_dict() == quiz.to_dict()
-        print(f"  └─ 정답 {quiz.answer}번 판정 및 JSON 왕복 변환 확인")
-
-    print("✅ 해시 테이블·BST를 포함한 기본 퀴즈 검증 완료!")
+    main()

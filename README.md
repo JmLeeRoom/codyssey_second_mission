@@ -47,7 +47,7 @@
 - Git
 - 외부 패키지 설치 없음 — Python 표준 라이브러리만 사용
 
-완성된 실행 소스가 추가된 뒤에는 다음 명령으로 실행합니다.
+다음 명령으로 실행합니다.
 
 ~~~bash
 git clone https://github.com/JmLeeRoom/codyssey_second_mission.git
@@ -57,7 +57,7 @@ python main.py
 
 macOS 또는 Linux 환경에서 <code>python</code> 명령이 Python 3을 가리키지 않으면 <code>python3 main.py</code>를 사용합니다.
 
-> 현재는 <code>main.py</code>가 아직 저장소에 없으므로 위 실행 명령은 구현 완료 후 검증해야 합니다.
+> 현재 <code>main.py</code>, <code>quiz.py</code>, <code>storage.py</code>가 있으며, 메뉴 골격과 공통 입력 검증을 실행할 수 있습니다. 메뉴 1~4의 세부 기능은 이후 단계에서 구현합니다.
 
 ## 4. 기능 목록
 
@@ -108,9 +108,8 @@ codyssey_second_mission/
 
 ~~~text
 codyssey_second_mission/
-├── main.py                  # 진입점, 메뉴 시작, 안전 종료 처리
+├── main.py                  # QuizGame 클래스, 메뉴 시작, 안전 종료 처리
 ├── quiz.py                  # Quiz 클래스
-├── quiz_game.py             # QuizGame 클래스와 게임 흐름
 ├── storage.py               # state.json 읽기·쓰기·복구 로직 (분리 시)
 ├── state.json               # 실행 중 생성되는 퀴즈·점수 데이터
 ├── .gitignore               # 동적 데이터와 개발 환경 파일 제외
@@ -130,7 +129,7 @@ codyssey_second_mission/
 | <code>Quiz</code> | 문제(<code>question</code>), 선택지 4개(<code>choices</code>), 정답 번호(<code>answer</code>)를 표현합니다. 문제 출력과 정답 확인을 담당하고, <code>to_dict()</code>·<code>from_dict()</code>로 JSON 데이터와 객체를 변환합니다. |
 | <code>QuizGame</code> | 퀴즈 목록, 최고 점수, 메뉴 루프를 관리합니다. 퀴즈 풀기·추가·목록 조회·점수 확인을 조합하고, <code>ask_int()</code>·<code>ask_text()</code> 같은 공통 입력 검증을 제공합니다. |
 | <code>storage.py</code> (선택 분리) | 프로젝트 루트의 데이터 경로를 정하고 JSON 저장·불러오기, 백업과 손상 복구를 담당합니다. 이 역할은 <code>QuizGame</code>에 통합할 수도 있습니다. |
-| <code>main.py</code> | 게임을 생성해 실행하고, <code>KeyboardInterrupt</code>·<code>EOFError</code>가 발생해도 안전하게 종료하도록 최상위 흐름을 담당합니다. |
+| <code>main.py</code> | 게임을 생성·실행하고 메뉴 흐름을 담당합니다. <code>KeyboardInterrupt</code>·<code>EOFError</code> 발생 시 가능한 범위에서 저장한 뒤 안전하게 종료합니다. |
 
 ## 6. 데이터 파일: state.json
 
