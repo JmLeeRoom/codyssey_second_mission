@@ -42,65 +42,65 @@
 
 ### 1-1. Python·Git 개발 환경
 
-- [ ] macOS/Linux에서 `python3 --version`을 실행해 Python 3.10 이상인지 확인한다. 
+- [x] macOS/Linux에서 `python3 --version`을 실행해 Python 3.10 이상인지 확인한다.
 Python 3.12.3
-- [ ] `git --version`을 실행해 Git 설치를 확인한다.
+- [x] `git --version`을 실행해 Git 설치를 확인한다.
 git version 2.43.0
-- [ ] `git config --global user.name "내이름"`으로 커밋 작성자 이름을 설정한다.
-- [ ] `git config --global user.email "GitHub가입이메일"`으로 GitHub 계정과 연결할 이메일을 설정한다.
-- [ ] `git config --global init.defaultBranch main`으로 기본 브랜치 이름을 `main`으로 설정한다.
-- [ ] `git config --global --list`을 실행해 이름·이메일·기본 브랜치 설정을 확인한다.
-- [ ] Python 버전, Git 버전, Git 전역 설정이 한 화면에 보이도록 캡처한다.
-- [ ] 개발 환경 캡처를 `docs/screenshots/env_setup.png`으로 저장하거나, 기존 `docs/image.png`를 README에 연결할 때는 파일 경로와 설명이 일치하는지 확인한다.
+- [x] `git config --global user.name "내이름"`으로 커밋 작성자 이름을 설정한다.
+- [x] `git config --global user.email "GitHub가입이메일"`으로 GitHub 계정과 연결할 이메일을 설정한다.
+- [x] `git config --global init.defaultBranch main`으로 기본 브랜치 이름을 `main`으로 설정한다.
+- [x] `git config --global --list`을 실행해 이름·이메일·기본 브랜치 설정을 확인한다.
+- [x] Python 버전, Git 버전, Git 전역 설정이 한 화면에 보이도록 캡처한다.
+- [x] 개발 환경 캡처를 `docs/screenshots/env_setup.png`으로 저장하거나, 기존 `docs/image.png`를 README에 연결할 때는 파일 경로와 설명이 일치하는지 확인한다.
 
 ### 1-2. 주제와 기본 문제 준비
 
-- [ ] 퀴즈 주제를 **자료구조(Data Structure)**로 확정한다.
-- [ ] README에 쓸 첫 번째 선정 이유를 메모한다: LIFO·FIFO처럼 정답이 명확해 객관적인 4지선다에 적합하다.
-- [ ] README에 쓸 두 번째 선정 이유를 메모한다: 프로그램 안의 `list`·`dict`·JSON 사용과 학습 주제가 연결된다.
-- [ ] README에 쓸 세 번째 선정 이유를 메모한다: 스택·큐·해시 테이블·트리·복잡도는 오래 쓰이는 CS 기초 지식이다.
-- [ ] 각 문제에 문제 문장, 선택지 정확히 4개, 정답 번호 1~4를 미리 작성한다.
-- [ ] 스택(Stack)의 LIFO를 검증하는 기본 문제를 준비한다.
-- [ ] 큐(Queue)의 FIFO를 검증하는 기본 문제를 준비한다.
-- [ ] BFS가 큐를 사용한다는 점 또는 해시 함수의 역할을 검증하는 기본 문제를 준비한다.
-- [ ] 정렬된 배열의 이진 탐색 시간 복잡도 `O(log n)`을 검증하는 기본 문제를 준비한다.
-- [ ] 해시 테이블 평균 탐색 또는 리스트 인덱스 접근의 `O(1)`을 검증하는 기본 문제를 준비한다.
-- [ ] 선택지 순서가 바뀌면 `answer` 번호도 함께 바뀌었는지 확인한다. 예를 들어 FIFO가 1번이면 정답은 1, FIFO가 2번이면 정답은 2여야 한다.
+- [x] 퀴즈 주제를 **자료구조(Data Structure)**로 확정한다.
+- [x] README에 쓸 첫 번째 선정 이유를 메모한다: LIFO·FIFO처럼 정답이 명확해 객관적인 4지선다에 적합하다.
+- [x] README에 쓸 두 번째 선정 이유를 메모한다: 프로그램 안의 `list`·`dict`·JSON 사용과 학습 주제가 연결된다.
+- [x] README에 쓸 세 번째 선정 이유를 메모한다: 스택·큐·해시 테이블·트리·복잡도는 오래 쓰이는 CS 기초 지식이다.
+- [x] 각 문제에 문제 문장, 선택지 정확히 4개, 정답 번호 1~4를 미리 작성한다.
+- [x] 스택(Stack)의 LIFO를 검증하는 기본 문제를 준비한다.
+- [x] 큐(Queue)의 FIFO를 검증하는 기본 문제를 준비한다.
+- [x] BFS가 큐를 사용한다는 점 또는 해시 함수의 역할을 검증하는 기본 문제를 준비한다.
+- [x] 정렬된 배열의 이진 탐색 시간 복잡도 `O(log n)`을 검증하는 기본 문제를 준비한다.
+- [x] 해시 테이블 평균 탐색 또는 리스트 인덱스 접근의 `O(1)`을 검증하는 기본 문제를 준비한다.
+- [x] 선택지 순서가 바뀌면 `answer` 번호도 함께 바뀌었는지 확인한다. 예를 들어 FIFO가 1번이면 정답은 1, FIFO가 2번이면 정답은 2여야 한다.
 
 ### 1-3. GitHub·로컬 저장소
 
-- [ ] GitHub에서 새 저장소를 생성한다.
-- [ ] 저장소 공개 범위를 **Public**으로 설정한다.
+- [x] GitHub에서 새 저장소를 생성한다.
+- [x] 저장소 공개 범위를 **Public**으로 설정한다.
 - [ ] 새 저장소를 만들 때 “Add a README file”를 선택하지 않는다. 이미 로컬 README가 있으면 첫 push 전 add/add 충돌이 날 수 있다.
 - [ ] 프로젝트 루트에서 `git init`을 실행한다.
 - [ ] `git branch -M main`으로 로컬 기본 브랜치 이름을 `main`으로 맞춘다.
-- [ ] `git status`로 현재 작업 트리 상태를 확인한다.
-- [ ] `git remote add origin <저장소URL>`을 실행해 원격 저장소를 연결한다.
-- [ ] `git remote -v`로 fetch·push URL이 예상한 저장소인지 확인한다.
-- [ ] GitHub에서 README를 미리 만든 원격 저장소를 유지해야 한다면, 첫 push 전에 `git pull --rebase origin main`을 실행한다.
+- [x] `git status`로 현재 작업 트리 상태를 확인한다.
+- [x] `git remote add origin <저장소URL>`을 실행해 원격 저장소를 연결한다.
+- [x] `git remote -v`로 fetch·push URL이 예상한 저장소인지 확인한다.
+- [x] GitHub에서 README를 미리 만든 원격 저장소를 유지해야 한다면, 첫 push 전에 `git pull --rebase origin main`을 실행한다.
 - [ ] add/add 충돌이 나면 `README.md`의 `<<<<<<<`, `=======`, `>>>>>>>` 표시를 제거하고 필요한 내용만 남긴다.
 - [ ] 충돌을 해결한 뒤 `git add README.md` → `git rebase --continue` → `git push -u origin main` 순서로 진행한다.
 - [ ] rebase가 꼬였을 때는 `git rebase --abort`로 rebase 시작 전 상태로 되돌린 뒤 원인을 다시 확인한다.
 
 ### 1-4. .gitignore와 README 초안
 
-- [ ] 프로젝트 루트에 `.gitignore`를 만든다.
-- [ ] `__pycache__/`, `*.py[cod]`를 `.gitignore`에 추가한다.
-- [ ] `.venv/`, `venv/` 등 가상환경 경로를 `.gitignore`에 추가한다.
-- [ ] `.vscode/`, `.idea/` 등 에디터 설정 파일을 `.gitignore`에 추가한다.
-- [ ] `.DS_Store`, `Thumbs.db` 등 운영체제 파일을 `.gitignore`에 추가한다.
-- [ ] 실행 중 변하는 `state.json`을 `.gitignore`에 추가한다.
-- [ ] 손상 파일 백업본 `state.json.bak`을 `.gitignore`에 추가한다.
+- [x] 프로젝트 루트에 `.gitignore`를 만든다.
+- [x] `__pycache__/`, `*.py[cod]`를 `.gitignore`에 추가한다.
+- [x] `.venv/`, `venv/` 등 가상환경 경로를 `.gitignore`에 추가한다.
+- [x] `.vscode/`, `.idea/` 등 에디터 설정 파일을 `.gitignore`에 추가한다.
+- [x] `.DS_Store`, `Thumbs.db` 등 운영체제 파일을 `.gitignore`에 추가한다.
+- [x] 실행 중 변하는 `state.json`을 `.gitignore`에 추가한다.
+- [x] 손상 파일 백업본 `state.json.bak`을 `.gitignore`에 추가한다.
 - [ ] `state.json`을 의도적으로 Git 추적할 선택을 했다면, 동적 실행 데이터가 커밋마다 바뀐다는 단점과 선택 이유를 README에 명시한다.
-- [ ] 루트 `README.md`에 6대 필수 섹션의 제목을 먼저 만든다.
-- [ ] README에 동적 실행 데이터는 Git 이력 오염을 막기 위해 추적 제외한다는 이유를 기록한다.
+- [x] 루트 `README.md`에 6대 필수 섹션의 제목을 먼저 만든다.
+- [x] README에 동적 실행 데이터는 Git 이력 오염을 막기 위해 추적 제외한다는 이유를 기록한다.
 
 ### 1-5. 첫 번째 Git 체크포인트
 
-- [ ] `git add .gitignore README.md`로 초기 설정 파일만 스테이징한다.
-- [ ] `git commit -m "Chore: 프로젝트 초기 설정 및 .gitignore 추가"`로 변경 이유가 드러나는 첫 커밋을 만든다.
-- [ ] `git push -u origin main`으로 `main`을 원격에 연결하고 push한다.
-- [ ] GitHub 웹 페이지에서 `.gitignore`와 `README.md`, 첫 번째 커밋이 보이는지 확인한다.
+- [x] `git add .gitignore README.md`로 초기 설정 파일만 스테이징한다.
+- [x] `git commit -m "Chore: 프로젝트 초기 설정 및 .gitignore 추가"`로 변경 이유가 드러나는 첫 커밋을 만든다.
+- [x] `git push -u origin main`으로 `main`을 원격에 연결하고 push한다.
+- [x] GitHub 웹 페이지에서 `.gitignore`와 `README.md`, 첫 번째 커밋이 보이는지 확인한다.
 
 ---
 
@@ -108,45 +108,45 @@ git version 2.43.0
 
 ### 2-1. Quiz 클래스 설계
 
-- [ ] `Quiz` 클래스를 정의해 퀴즈 한 문제를 표현한다.
-- [ ] `__init__(self, question, choices, answer)`에서 `question`을 문제 문자열로 저장한다.
-- [ ] `__init__(self, question, choices, answer)`에서 `choices`를 선택지 목록으로 저장한다.
-- [ ] `__init__(self, question, choices, answer)`에서 `answer`를 정답 번호로 저장한다.
-- [ ] `choices`가 선택지 4개라는 규칙을 생성·입력·불러오기 전 과정에서 유지한다.
-- [ ] `answer`를 사용자에게 보이는 1~4 범위의 번호로 일관되게 저장한다.
-- [ ] 사용자 입력 1~4와 Python 리스트 인덱스 0~3을 혼동하지 않는다.
-- [ ] 정답 선택지를 꺼낼 때만 `choices[answer - 1]`처럼 1-based 값을 0-based 인덱스로 변환한다.
-- [ ] 0을 정답 번호로 저장하거나 `choices[answer]`로 잘못 접근하지 않는지 확인한다.
+- [x] `Quiz` 클래스를 정의해 퀴즈 한 문제를 표현한다.
+- [x] `__init__(self, question, choices, answer)`에서 `question`을 문제 문자열로 저장한다.
+- [x] `__init__(self, question, choices, answer)`에서 `choices`를 선택지 목록으로 저장한다.
+- [x] `__init__(self, question, choices, answer)`에서 `answer`를 정답 번호로 저장한다.
+- [x] `choices`가 선택지 4개라는 규칙을 생성·입력·불러오기 전 과정에서 유지한다.
+- [x] `answer`를 사용자에게 보이는 1~4 범위의 번호로 일관되게 저장한다.
+- [x] 사용자 입력 1~4와 Python 리스트 인덱스 0~3을 혼동하지 않는다.
+- [x] 정답 선택지를 꺼낼 때만 `choices[answer - 1]`처럼 1-based 값을 0-based 인덱스로 변환한다.
+- [x] 0을 정답 번호로 저장하거나 `choices[answer]`로 잘못 접근하지 않는지 확인한다.
 
 ### 2-2. Quiz 메서드
 
-- [ ] `display(self, number=None)`를 구현한다.
-- [ ] `number`가 전달되면 `[문제 3]`처럼 문제 번호를 함께 출력한다.
-- [ ] `display()`가 문제 문장을 출력한다.
-- [ ] `display()`가 `enumerate(..., start=1)` 또는 동등한 방식으로 선택지를 `1. ...`부터 `4. ...`까지 출력한다.
-- [ ] `is_correct(self, user_answer)`가 입력 번호와 `self.answer`를 비교한다.
-- [ ] `is_correct()`가 정답이면 `True`, 오답이면 `False`를 반환한다.
-- [ ] `to_dict(self)`가 `question`, `choices`, `answer` 키를 가진 JSON 호환 `dict`를 반환한다.
-- [ ] `@classmethod from_dict(cls, data)`를 정의한다.
-- [ ] `from_dict()`가 `data["question"]`, `data["choices"]`, `data["answer"]`를 사용해 `Quiz` 객체를 복원한다.
-- [ ] `Quiz.from_dict(quiz.to_dict())` 후 문제·선택지·정답이 동일한지 확인한다.
-- [ ] `get_default_quizzes()`가 raw `dict` 목록이 아니라 `Quiz(question, choices, answer)` 인스턴스의 `list`를 반환하는지 확인한다.
-- [ ] 기본 퀴즈 각각에 문자열 문제 1개, 문자열 선택지 정확히 4개, `int` 정답 번호 1~4가 있는지 확인한다.
+- [x] `display(self, number=None)`를 구현한다.
+- [x] `number`가 전달되면 `[문제 3]`처럼 문제 번호를 함께 출력한다.
+- [x] `display()`가 문제 문장을 출력한다.
+- [x] `display()`가 `enumerate(..., start=1)` 또는 동등한 방식으로 선택지를 `1. ...`부터 `4. ...`까지 출력한다.
+- [x] `is_correct(self, user_answer)`가 입력 번호와 `self.answer`를 비교한다.
+- [x] `is_correct()`가 정답이면 `True`, 오답이면 `False`를 반환한다.
+- [x] `to_dict(self)`가 `question`, `choices`, `answer` 키를 가진 JSON 호환 `dict`를 반환한다.
+- [x] `@classmethod from_dict(cls, data)`를 정의한다.
+- [x] `from_dict()`가 `data["question"]`, `data["choices"]`, `data["answer"]`를 사용해 `Quiz` 객체를 복원한다.
+- [x] `Quiz.from_dict(quiz.to_dict())` 후 문제·선택지·정답이 동일한지 확인한다.
+- [x] `get_default_quizzes()`가 raw `dict` 목록이 아니라 `Quiz(question, choices, answer)` 인스턴스의 `list`를 반환하는지 확인한다.
+- [x] 기본 퀴즈 각각에 문자열 문제 1개, 문자열 선택지 정확히 4개, `int` 정답 번호 1~4가 있는지 확인한다.
 
 ### 2-3. 기본 퀴즈 함수와 단위 확인
 
-- [ ] `get_default_quizzes()` 함수를 작성한다.
-- [ ] `state.json`이 없거나 손상됐을 때 `get_default_quizzes()`가 사용할 기본 데이터의 출처가 되게 한다.
-- [ ] 함수가 `Quiz` 인스턴스 5개 이상을 반환한다.
-- [ ] 각 기본 퀴즈가 자료구조 주제이며, 선택지 4개와 정답 번호 1~4를 가진다.
-- [ ] 스택 문제의 정답이 LIFO와 일치하는지 확인한다.
-- [ ] 큐 문제의 정답이 FIFO와 일치하는지 확인한다.
-- [ ] 해시 테이블/해시 함수 문제의 정답이 선택지와 일치하는지 확인한다.
-- [ ] 해시 테이블 또는 해시 함수의 핵심 개념을 검증하는 기본 문제가 최소 1개 있는지 확인한다.
-- [ ] 이진 탐색 트리(BST) 문제의 정답이 왼쪽·오른쪽 서브트리 규칙과 일치하는지 확인한다.
-- [ ] 시간 복잡도 문제의 정답이 `O(1)` 또는 `O(log n)` 설명과 일치하는지 확인한다.
-- [ ] `if __name__ == "__main__":` 블록에서 기본 퀴즈 개수, `display()`, `is_correct()`, `to_dict()`를 임시로 확인한다.
-- [ ] 임시 테스트 코드가 나중에 import될 때 자동 실행되지 않는지 확인한다.
+- [x] `get_default_quizzes()` 함수를 작성한다.
+- [x] `state.json`이 없거나 손상됐을 때 `get_default_quizzes()`가 사용할 기본 데이터의 출처가 되게 한다.
+- [x] 함수가 `Quiz` 인스턴스 5개 이상을 반환한다.
+- [x] 각 기본 퀴즈가 자료구조 주제이며, 선택지 4개와 정답 번호 1~4를 가진다.
+- [x] 스택 문제의 정답이 LIFO와 일치하는지 확인한다.
+- [x] 큐 문제의 정답이 FIFO와 일치하는지 확인한다.
+- [x] 해시 테이블/해시 함수 문제의 정답이 선택지와 일치하는지 확인한다.
+- [x] 해시 테이블 또는 해시 함수의 핵심 개념을 검증하는 기본 문제가 최소 1개 있는지 확인한다.
+- [x] 이진 탐색 트리(BST) 문제의 정답이 왼쪽·오른쪽 서브트리 규칙과 일치하는지 확인한다.
+- [x] 시간 복잡도 문제의 정답이 `O(1)` 또는 `O(log n)` 설명과 일치하는지 확인한다.
+- [x] `if __name__ == "__main__":` 블록에서 기본 퀴즈 개수, `display()`, `is_correct()`, `to_dict()`를 임시로 확인한다.
+- [x] 임시 테스트 코드가 나중에 import될 때 자동 실행되지 않는지 확인한다.
 
 ### 2-4. Step 1 Git 체크포인트
 
