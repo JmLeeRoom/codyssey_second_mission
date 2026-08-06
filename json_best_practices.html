@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대규모 JSON 데이터 처리 가이드</title>
+    <style>
+        :root {
+            --primary-color: #4F46E5;
+            --background-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+        }
+        
+        body {
+            font-family: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+        }
+
+        .card-number {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #374151;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 14px;
+            background-color: var(--primary-color);
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+
+        .content-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        code {
+            background-color: #F3F4F6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #EF4444;
+        }
+
+        .summary-box {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .summary-box h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .summary-box p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            opacity: 0.95;
+            word-break: keep-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>대규모 JSON 처리 가이드 🚨</h1>
+            <p class="subtitle">대규모 JSON 데이터를 다룰 때 발생하는 주요 문제점과 핵심 해결책 요약</p>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h3><span class="card-number">1</span> 메모리 부족</h3>
+                <div class="section-title">원인</div>
+                <p class="content-text"><code>json.load()</code>를 사용해 대용량 파일 전체를 한 번에 메모리에 적재하려고 할 때 발생합니다.</p>
+                <div class="section-title">해결 방법</div>
+                <p class="content-text"><strong>JSON Lines(.jsonl)</strong> 형식이나 <strong>스트리밍 파서(ijson 등)</strong>를 사용하여 한 번에 한 객체씩 메모리에 올려 처리합니다.</p>
+            </div>
+
+            <div class="card">
+                <h3><span class="card-number">2</span> 검색 속도 저하</h3>
+                <div class="section-title">원인</div>
+                <p class="content-text">리스트 구조에 담긴 수많은 데이터를 순차 탐색(O(n))하게 되어 병목 현상이 발생합니다.</p>
+                <div class="section-title">해결 방법</div>
+                <p class="content-text">고유 식별자(ID 등)를 키로 사용하는 <strong>딕셔너리 인덱스</strong>를 생성하여 검색 속도를 최적화(O(1))합니다.</p>
+            </div>
+
+            <div class="card">
+                <h3><span class="card-number">3</span> 중첩 구조 오류</h3>
+                <div class="section-title">원인</div>
+                <p class="content-text">깊은 계층 구조에서 중간 키가 누락된 경우 접근 시 <code>KeyError</code>가 발생하며 중단됩니다.</p>
+                <div class="section-title">해결 방법</div>
+                <p class="content-text"><code>.get()</code> 메서드를 체이닝하거나, 유연하게 대처할 수 있는 <strong>안전한 중첩 접근 함수(Nested Get)</strong>를 만들어 기본값을 반환하도록 합니다.</p>
+            </div>
+
+            <div class="card">
+                <h3><span class="card-number">4</span> 데이터 오염 및 타입 오류</h3>
+                <div class="section-title">원인</div>
+                <p class="content-text">필수 키 누락, <code>null</code> 값 존재, 잘못된 데이터 타입 등으로 인해 예상치 못한 런타임 오류가 발생합니다.</p>
+                <div class="section-title">해결 방법</div>
+                <p class="content-text"><code>.get(key, default)</code>로 기본값을 보장하고, <code>isinstance()</code>를 통해 <strong>엄격한 데이터 타입 검증</strong>을 수행합니다.</p>
+            </div>
+
+            <div class="card">
+                <h3><span class="card-number">5</span> 파일 부분 손상</h3>
+                <div class="section-title">원인</div>
+                <p class="content-text">대규모 파일 중 일부 데이터만 JSON 문법 오류가 있어도 파싱 실패 시 전체 실행이 멈춥니다.</p>
+                <div class="section-title">해결 방법</div>
+                <p class="content-text">개별 파싱 단계에서 <code>try-except json.JSONDecodeError</code>를 적용해 <strong>오류를 격리</strong>하고 문제가 있는 데이터만 건너뜁니다.</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h2>핵심 요약 🎯</h2>
+            <p>대규모 JSON 파일 처리는 단순 로딩을 넘어,<br><strong>스트리밍 처리(메모리), 인덱싱(속도), 방어적 프로그래밍(예외 및 검증)</strong>을<br>종합적으로 고려하여 안전하게 다뤄야 합니다.</p>
+        </div>
+    </div>
+</body>
+</html>
